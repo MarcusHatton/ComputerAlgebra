@@ -26,6 +26,8 @@ PiNS = -zeta*dxv
 fastNSs = [qNS, PiNS]
 for i in len(fasts):
     fast[i] = fastNSs[i] + timescales[i]*fast1s[i]
+
+##
     
 q = qNS + tauq*q1
 dtq = q.diff(t)
