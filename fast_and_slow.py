@@ -6,6 +6,7 @@ Created on Wed Jul  7 00:54:44 2021
 """
 
 from sympy import *
+import numpy as np
 
 kappa, tauq, zeta, tauPi = symbols('kappa tauq zeta tauPi')
 strengths = [kappa,zeta]
@@ -19,45 +20,51 @@ fasts = [q, Pi]
 slows = [T, v]
 fast1s = [q1, Pi1]
 
-dxT = T.diff(x)
-dxv = v.diff(x)
-qNS = -kappa*dxT
-PiNS = -zeta*dxv
-fastNSs = [qNS, PiNS]
-for i in len(fasts):
-    fast[i] = fastNSs[i] + timescales[i]*fast1s[i]
+dxslows = np.zeros_like(slows)
+fastNSs = np.zeros_like(fasts)
 
-##
-    
-q = qNS + tauq*q1
-dtq = q.diff(t)
+for i in range(len(fasts)):
+    dxslows[i] = slows[i].diff(x)
+    fastNSs[i] = -strengths[i]*dxslows[i]
+    fasts[i] = fastNSs[i] + timescales[i]*fast1s[i]
 
-eq10b =  Eq(-dtq, (1/tauq)*(-qNS + q))
-eq10bLO = eq10b.subs(tauq,0)
-#print(eq10b)
 
-q1 = solve(eq10bLO,q1)[0]
-#print(q1)
+dtfasts = np.zeros_like(fasts)
+dxfasts = np.zeros_like(fasts)
 
-q = qNS + tauq*q1
-dxq = q.diff(x)
-dtT = T.diff(t)
-eq10a = Eq(dtT + dxq, 0)
-expr10a = dtT + dxq
-eq10aLO = eq10a.subs(tauq,0)
-#print(expr10a)
+for i in range(len(fasts)):
+    dtfasts[i] = fasts[i].diff(t)
+    dxfasts[i] = fasts[i].diff(x)
 
-dtTLO = solve(eq10aLO,dtT)[0]
-#print(dtTLO)
+beqs = np.zeros_like(fasts)
+beqsLO = np.zeros_like(fasts)
+bfluxes = [0, fasts[1]*dxslows[1] + slows[1]*dxfasts[1]]
+dtslows = np.zeros_like(slows)
+for i in range(len(fasts)):
+    beqs[i] = Eq(dtfasts[i] + bfluxes[i], (1/timescales[i])*(fastNSs[i] - fasts[i]))
+    beqsLO[i] = beqs[i].subs(timescales[i],0)
+    fast1s[i] = solve(beqsLO[i],fast1s[i])[0]
+    fasts[i] = fastNSs[i] + timescales[i]*fast1s[i]
+    dxfasts[i] = fasts[i].diff(x)
+    dtslows[i] = slows[i].diff(t)
 
-eq10a = eq10a.subs(dtT,dtTLO)
-#print(simplify(eq10a))
+#print(fast1s)
 
-dtTNLO = simplify(expr10a.subs(dtT,dtTLO))
-#print(simplify(dtTNLO))
+aeqs = np.zeros_like(fasts)
+aexprs = np.zeros_like(fasts)
+aeqsLO = np.zeros_like(fasts)
+afluxes = [dxfasts[0], 2*slows[1]*dxslows[1] + dxfasts[1]]
+dtslowsLO = np.zeros_like(fasts)
+dtslowsNLO = np.zeros_like(fasts)
+dtslowsols = np.zeros_like(fasts)
 
-dtTsol = dtTLO + dtTNLO
-print(dtTsol)
+for i in range(len(fasts)):
+    aeqs[i] = Eq(dtslows[i] + afluxes[i], 0)
+    aexprs[i] = dtslows[i] + afluxes[i]
+    aeqsLO[i] = aeqs[i].subs(timescales[i], 0)
+    dtslowsLO[i] = solve(aeqsLO[i], dtslows[i])[0]
+    print(aeqs[i])
+    aeqs[i] = aeqs[i].subs(dtslows[i],dtslowsLO[i])
+    dtslowsNLO[i] = simplify(aexprs[i].subs(dtslows[i],dtslowsLO[i]))
+    dtslowsols[i] = dtslowsLO[i] + dtslowsNLO[i]
 
-#dtTsol = solve(eq10a,dtT)[0]
-#print(dtTsol)
