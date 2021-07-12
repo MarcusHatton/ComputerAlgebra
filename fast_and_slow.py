@@ -8,8 +8,12 @@ Created on Wed Jul  7 00:54:44 2021
 from sympy import *
 import numpy as np
 
-kappa, tauq, zeta, tauPi = symbols('kappa tauq zeta tauPi')
+kappa, tauq, zeta, tauPi = symbols('kappa tauq zeta tauPi', real=True)
+epsilon = symbols('epsilon',positive=True,real=True)
+epsilon=1
 strengths = [kappa,zeta]
+for i in range(len(strengths)):
+    strengths[i] *= epsilon
 timescales = [tauq, tauPi]
 t, x = symbols('t x')
 q, Pi = Function('q')(x, t), Function('Pi')(x, t)
@@ -43,6 +47,7 @@ dtslows = np.zeros_like(slows)
 for i in range(len(fasts)):
     beqs[i] = Eq(dtfasts[i] + bfluxes[i], (1/timescales[i])*(fastNSs[i] - fasts[i]))
     beqsLO[i] = beqs[i].subs(timescales[i],0)
+    #beqsLO[i] = beqs[i].subs(epsilon,0)
     fast1s[i] = solve(beqsLO[i],fast1s[i])[0]
     fasts[i] = fastNSs[i] + timescales[i]*fast1s[i]
     dxfasts[i] = fasts[i].diff(x)
@@ -63,8 +68,12 @@ for i in range(len(fasts)):
     aexprs[i] = dtslows[i] + afluxes[i]
     aeqsLO[i] = aeqs[i].subs(timescales[i], 0)
     dtslowsLO[i] = solve(aeqsLO[i], dtslows[i])[0]
-    print(aeqs[i])
+    #print(aeqs[i])
     aeqs[i] = aeqs[i].subs(dtslows[i],dtslowsLO[i])
     dtslowsNLO[i] = simplify(aexprs[i].subs(dtslows[i],dtslowsLO[i]))
     dtslowsols[i] = dtslowsLO[i] + dtslowsNLO[i]
+
+print(dtslowsols)
+#print(expand(dtslowsols[1]).as_ordered_terms())
+
 
