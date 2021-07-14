@@ -103,13 +103,20 @@ for i in range(len(IS_sys)):
     # Form the equation with the expansion
     IS_sys_LO[i] = Eq(state_vec_LO[i].diff(t) + flux_vec_LO[i].diff(x),0)
 
-IS_sys_series = np.zeros((len(IS_sys),len(timescales)))
+# Separate out the zeroth order parts of the system and each timescale order
+IS_sys_series = np.zeros((len(IS_sys),len(timescales)+1),dtype=type(IS_sys_LO[0]))
 for i in range(len(IS_sys)):
+    IS_sys_series[i][0] = IS_sys_LO[i].lhs.as_independent(timescales[0])[0].as_independent(timescales[1])[0].as_independent(timescales[2])[0]
+    #print(IS_sys_series[i][0])
     for j in range(len(diss_vars)):
     #    IS_sys_LO[i] = IS_sys_LO[i].subs(timescales[j],0)
-        IS_sys_series[i][j] = IS_sys_LO[i].lhs.as_independent(timescales[j])[1])
-    print('\n')
+        IS_sys_series[i][j+1] = IS_sys_LO[i].lhs.as_independent(timescales[j])[1]
 
+for i in range(3):
+    for j in range(4):
+        print(IS_sys_series[i][j])
+        print('\n')
+    print('\n')
 
 
 
