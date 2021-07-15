@@ -9,7 +9,7 @@ from sympy import *
 import numpy as np
 
 # Setup symbols
-kappa, tauq, zeta, tauPi, eta, taupi = symbols('kappa tauq zeta tauPi eta taupi', real=True)
+kappa, tauq, zeta, tauPi, eta, taupi = symbols('kappa tauq zeta tauPi eta taupi', real=True, positive=True)
 strengths = [kappa,zeta,eta]
 timescales = [tauq, tauPi, taupi]
 
@@ -24,33 +24,51 @@ t, x, y, z = symbols('t x y z')
 
 # Dependent vars
 # Diss vars
-q, Pi, pi = Function('q')(x, t), Function('Pi')(x, t), Function('pi')(x, t)
-diss_vars = [q, Pi, pi]
-# Prims
-v, p, n, rho, T, W = Function('v')(x, t), Function('p')(x, t), Function('n')(x, t), \
-                  Function('rho')(x, t), Function('T')(x, t), Function('W')(x, t), 
+qx, qy, qz = Function('qx')(x, t), Function('qy')(x, t), Function('qz')(x, t)
+Pi =  Function('Pi')(x, t)
+pixx, pixy, pixz, piyx, piyy, piyz, pizx, pizy, pizz =
+    Function('pixx')(x, t), Function('pixy')(x, t), Function('pixz')(x, t), \
+    Function('piyx')(x, t), Function('piyy')(x, t), Function('piyz')(x, t), \
+    Function('pizx')(x, t), Function('pizy')(x, t), Function('pizz')(x, t)
+diss_vars = [qx, qy, qz, Pi, pixx, pixy, pixz, piyx, piyy, piyz, pizx, pizy, pizz]
 
+# Prims
+vx, vy, vz = Function('vx')(x, t), Function('vy')(x, t), Function('vz')(x, t)
+p, n, rho  = Function('p')(x, t), Function('n')(x, t),Function('rho')(x, t)
+                  
 # Aux
-qv, pi00, pi01 = Function('qv')(x, t), Function('pi00')(x, t), Function('pi01')(x, t)
-vsqrd = v**2
+T, W = Function('T')(x, t), Function('W')(x, t)
+qv, pitt, pitx, pity, pitz = Function('qv')(x, t), Function('pitt')(x, t), \ 
+    Function('pitx')(x, t), Function('pity')(x, t), Function('pitz')(x, t)
+
 # May choose not to define explicitly for readability
-#W = 1/sqrt(1-v**2)
-#qv = q*v
-#pi00 = pi
-#pi01 = v*pi
+vsqrd = vx**2 + vy**2 + vz**2
+W = 1/sqrt(1-vsqrd)
+qv = qx*vx + qy*vy + qz*vz
+pitt = pixx + piyy + pizz
+pitx = vx*pixx + vy*pixy + vz*pixz
+pity = vx*piyz + vy*piyy + vz*piyz
+pitz = vx*pizx + vy*pizy + vz*pizz
 
 # CE LO Corrections
-q1, Pi1, pi1 = Function('q1')(x, t), Function('Pi1')(x, t), Function('pi1')(x, t)
-diss1s = [q1, Pi1, pi1]
+qx1, qy1, qz1 = Function('qx1')(x, t), Function('qy1')(x, t), Function('qz1')(x, t)
+Pi1 =  Function('Pi1')(x, t)
+pixx1, pixy1, pixz1, piyx1, piyy1, piyz1, pizx1, pizy1, pizz1 =
+    Function('pixx1')(x, t), Function('pixy1')(x, t), Function('pixz1')(x, t), \
+    Function('piyx1')(x, t), Function('piyy1')(x, t), Function('piyz1')(x, t), \
+    Function('pizx1')(x, t), Function('pizy1')(x, t), Function('pizz1')(x, t)
+diss1s = [qx1, qy1, qz1, Pi1, pixx1, pixy1, pixz1, piyx1, piyy1, piyz1, pizx1, pizy1, pizz1]
 
 # state vector
 D = n*W
-S = (rho + p + Pi)*W**2*v + (q + qv*v)*W + pi01
-E = (rho + p + Pi)*W**2 - (p + Pi) + 2*qv*W + pi00
-state_vec = [D, S, E]
+Sx = (rho + p + Pi)*W**2*vx + (qx + qv*vx)*W + pitx
+Sy = (rho + p + Pi)*W**2*vy + (qy + qv*vy)*W + pity
+Sz = (rho + p + Pi)*W**2*vz + (qz + qv*vz)*W + pitz
+E = (rho + p + Pi)*W**2 - (p + Pi) + 2*qv*W + pitt
+state_vec = [D, Sx, Sy, Sz, E]
 
 # flux vector
-flux_vec = np.zeros_like(state_vec)
+flux_vec = np.zeros((3,len(state_vec)))
 flux_vec[0] = state_vec[0]*v
 flux_vec[1] = state_vec[1]*v + (p + Pi) + W*(q*v - qv*v*v) + pi
 flux_vec[2] = (state_vec[2] + p)*v + W*(q - qv*v) + pi01
