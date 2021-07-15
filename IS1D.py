@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul 15 01:09:42 2021
+Created on Mon Jul 12 16:27:53 2021
 
 @author: marcu
 """
@@ -117,5 +117,13 @@ for i in range(3):
         print(IS_sys_series[i][j])
         print('\n')
     print('\n')
+
+
+
+
+
+
+
+
 
 
