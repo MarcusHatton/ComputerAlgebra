@@ -1,0 +1,101 @@
+
+ActiveThorns = "
+Boundary
+CartGrid3d
+CoordBase
+GenericFD
+IOASCII
+IOUtil
+IOBasic
+MoL
+NanChecker
+Periodic
+PUGH
+PUGHReduce
+LocalReduce
+PUGHSlab
+IDScalarWaveNRPy
+WaveToyNRPy
+Slab
+SymBase
+Time
+NewRad
+"
+
+#############################################################
+# Grid
+#############################################################
+
+WaveToyNRPy::FD_ordern = 8
+
+CoordBase::boundary_size_x_lower        = 4
+CoordBase::boundary_size_y_lower        = 4
+CoordBase::boundary_size_z_lower        = 4
+
+CoordBase::boundary_size_x_upper        = 4
+CoordBase::boundary_size_y_upper        = 4
+CoordBase::boundary_size_z_upper        = 4
+
+# Size of the grid (including boundary points)
+PUGH::global_nx = 137
+PUGH::global_ny = 137
+PUGH::global_nz = 137
+
+PUGH::ghost_size = 4
+
+CartGrid3D::type         = "byrange"
+CartGrid3D::avoid_origin = "no"
+
+CartGrid3D::xmin = -13.6
+CartGrid3D::ymin = -13.6
+CartGrid3D::zmin = -13.6
+CartGrid3D::xmax =  13.6
+CartGrid3D::ymax =  13.6
+CartGrid3D::zmax =  13.6
+
+#############################################################
+# Time integration
+#############################################################
+
+Cactus::terminate                     = "time"
+Cactus::cctk_final_time               = 3
+
+Time::dtfac                           = 0.5
+MethodOfLines::ode_method             = "RK87"
+MethodOfLines::MoL_Intermediate_Steps = 13
+MethodOfLines::MoL_Num_Scratch_Levels = 13
+MethodOfLines::MoL_NaN_Check          = "yes"
+
+#############################################################
+# Boundary conditions
+#############################################################
+
+#WaveToyNRPy::evolved_group_bound   = "none"
+
+#############################################################
+# Output
+#############################################################
+
+IO::out_dir                   = $parfile
+IO::out_fileinfo              = "none"
+IO::new_filename_scheme       = "no"
+
+IOBasic::outInfo_every        = 1
+IOBasic::outInfo_vars         = "WaveToyNRPy::uuGF"
+
+
+IOASCII::out1D_style          = "gnuplot f(t,x)"
+IOASCII::out1D_every          = 2
+IOASCII::out1D_x              = "yes"
+IOASCII::out1D_y              = "no"
+IOASCII::out1D_z              = "no"
+IOASCII::out1D_d              = "no"
+IOASCII::out1D_vars           = "WaveToyNRPy::uuGF WaveToyNRPy::vvGF"
+
+#############################################################
+#Initial Data: "PlaneWave" or "SphericalGaussian"
+#############################################################
+IDScalarWaveNRPy::initial_data = "PlaneWave"
+IDScalarWaveNRPy::kk0 = 0.4
+IDScalarWaveNRPy::kk1 = 0.4
+IDScalarWaveNRPy::kk2 = 0.4

@@ -1,0 +1,168 @@
+language: python
+
+
+matrix:
+  include:
+    - name: "JUPYTER NOTEBOOK TESTS: SymPy-dev Ubuntu Linux Bionic Python 3.8.6 (Python 3.8 + latest *development* SymPy)"
+      os: linux
+      dist: bionic
+      python: 3.8.6
+      install:
+        - sudo apt-get -y install texlive-latex-base pandoc colordiff libgsl-dev
+        - pip install mpmath jupyter matplotlib scipy
+        - pip install -U git+https://github.com/sympy/sympy/
+      script: ./UnitTesting/core_Jupyter_notebook_testsuite.sh
+
+    - name: "JUPYTER NOTEBOOK TESTS: Ubuntu Linux Focal (20.04) Python 3.6.12 (Python 3.6 + latest stable SymPy)"
+      os: linux
+      dist: focal
+      python: 3.6.12
+      before_script: pip install testfixtures
+      install:
+        - python --version
+        - sudo apt-get -y install texlive-latex-base pandoc colordiff libgsl-dev
+        - pip install scipy sympy mpmath jupyter matplotlib
+      script: ./UnitTesting/core_Jupyter_notebook_testsuite.sh
+
+    # WAYYY TOO SLOW. Don't know why.
+    # - name: "JUPYTER NOTEBOOK TESTS: Ubuntu Linux Focal (20.04) pypy 3.6 (pypy3 + latest stable SymPy)"
+    #   os: linux
+    #   dist: focal
+    #   python: pypy3.6-7.3.1
+    #   before_script: pypy3 -mpip install testfixtures
+    #   install:
+    #     - python --version
+    #     - sudo apt-get -y install texlive-latex-base pandoc colordiff libgsl-dev
+    #     - sudo apt-get -y install libopenblas0 libopenblas-dev "liblapack*" gfortran
+    #     - pypy3 -mpip install numpy
+    #     - pypy3 -mpip install scipy
+    #     - pypy3 -mpip install sympy mpmath jupyter matplotlib
+    #   script: ./UnitTesting/core_Jupyter_notebook_testsuite.sh
+
+    - name: "JUPYTER NOTEBOOK TESTS: SymPy-1.2 Ubuntu Linux Bionic Python 2.7.18 (oldest SymPy version tested/supported by NRPy+ [ref metric])"
+      os: linux
+      dist: bionic
+      python: 2.7.18
+      install:
+        - sudo apt-get -y install texlive-latex-base pandoc colordiff libgsl-dev
+        - pip install mpmath jupyter matplotlib scipy
+        - pip install sympy==1.2
+      script: ./UnitTesting/core_Jupyter_notebook_testsuite.sh
+
+    - name: "SymPy-dev Ubuntu Linux Xenial pypy3 (only NRPy+ UnitTesting tests with sympy-dev)"
+      os: linux
+      dist: xenial
+      python: pypy3
+      install:
+        - pip install mpmath testfixtures
+        - pip install -U git+https://github.com/sympy/sympy/
+        - pip install nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh pypy
+
+    - name: "Ubuntu Linux Xenial pypy2.7-6.0 (only pypy2.7 test)"
+      os: linux
+      dist: xenial
+      python: pypy2.7-6.0
+      install:
+        - pip install mpmath==1.1.0 sympy testfixtures nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh pypy
+
+    - name: "Ubuntu Linux Xenial pypy3.5-6.0 (only pypy3.5 test with latest stable SymPy)"
+      os: linux
+      dist: xenial
+      python: pypy3.5-6.0
+      install:
+        - pip install nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh pypy3
+
+    - name: "Windows Python 3.9 (only Windows test; note Travis considers Windows unsupported/experimental)"
+      os: windows           # Windows 10.0.17134 N/A Build 17134
+      language: sh          # 'language: python' is an error on Travis CI Windows
+      before_install:
+        - choco install python
+        - export PATH="/c/Python39:/c/Python39/Scripts:$PATH"
+        - ls /c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/opt/bin/
+        - python -m ensurepip
+        - python -m pip install --upgrade pip wheel
+      install:
+        - pip install mpmath sympy nrpylatex
+      env:
+        - PATH=/c/Python39:/c/Python39/Scripts:$PATH
+        - PYTHONPATH=.:./UnitTesting/:$PYTHONPATH
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python
+
+    - name: "OS X Python 3.7 (one of two OS X tests)"
+      os: osx
+      language: sh
+      python: 3.7
+      install:
+        - pip3 install mpmath sympy nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    # https://docs.travis-ci.com/user/languages/python/
+    - name: "OS X, xcode 10.2 Python 3.7 (one of two OS X tests)"
+      os: osx
+      osx_image: xcode10.2  # Python 3.7.2 running on macOS 10.14.3
+      language: shell       # 'language: python' is an error on Travis CI macOS
+      install:
+        - pip3 install mpmath sympy nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    - name: "Ubuntu Linux Xenial CPython 3.4.5 (earliest Python 3 version tested)"
+      os: linux
+      dist: trusty
+      python: 3.4.5
+      install:
+        - pip3 install mpmath sympy
+        - pip3 install -U git+https://github.com/zachetienne/nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    # According to https://github.com/tornadoweb/tornado/blob/master/.travis.yml:
+    #  3.5.2 is interesting because it's the version in ubuntu 16.04, and due to python's
+    # "provisional feature" rules there are significant differences between patch
+    # versions for asyncio and typing.
+    - name: "Ubuntu Linux Xenial CPython 3.5.2 (default Python3 version in ubuntu xenial)"
+      os: linux
+      dist: xenial
+      python: 3.5.2
+      install:
+        - pip3 install mpmath sympy nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    # Unstable at times (pip / matplotlib broken):
+    # - name: "Ubuntu Linux Bionic CPython 3.9-dev"
+    #   os: linux
+    #   dist: bionic
+    #   python: 3.9-dev
+    #   script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    # Unstable at times (pip / matplotlib broken):
+    # - name: "Ubuntu Linux Xenial CPython NIGHTLY"
+    #   os: linux
+    #   dist: xenial
+    #   python: nightly
+    #   script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    - name: "SymPy1.3, Ubuntu Linux Bionic Python 2.7.18 (earliest versions supported by UnitTests)"
+      os: linux
+      dist: bionic
+      python: 2.7.18
+      install:
+        - pip install mpmath sympy==1.3 testfixtures nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python2
+
+    - name: "Ubuntu Linux Bionic Python 3.6.9 (default Python3 in Ubuntu 18.04)"
+      os: linux
+      dist: bionic
+      python: 3.6.9
+      install:
+        - pip3 install mpmath sympy nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python3
+
+    - name: "Ubuntu Linux Bionic Python 3.8.3 (closest to NRPy+ core development infrastructure)"
+      os: linux
+      dist: bionic
+      python: 3.8.3
+      install:
+        - pip3 install mpmath sympy nrpylatex
+      script: ./UnitTesting/run_NRPy_UnitTests.sh python3
