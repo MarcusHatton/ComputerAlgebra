@@ -183,18 +183,6 @@ for i in range(len(IS_sys)):
 #         print('\n')
 #     print('\n')
 
-# Use string replacement to get C++ style expressions for the state & flux vectors
-svs_str = np.zeros_like(state_vec_series,dtype=str)
-fvs_str = np.zeros_like(flux_vec_series,dtype=str)
-func_of = '(t, x, y, z)'
-components = ', i, j, k)]'
-for i in range(5):
-    for j in range(4):
-        svs_str[i][j] = str(state_vec_series[i][j])
-        for prim_var in prim_vars:
-            svs_str[i][j] = svs_str[i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
-        print(state_vec_series[i][j])
-        print(svs_str[i][j])
 
 # Write the un-differentiated state and flux vectors to file
 outfile = open('ISFullOutput.txt','w')
@@ -202,13 +190,13 @@ outfile = open('ISFullOutput.txt','w')
 outfile.write('State Vector (5x4): 5 components, 4 timescale separations \n')
 for i in range(5):
     for j in range(4):
-        outfile.write('\n'+str(state_vec_series[i][j]))
+        outfile.write(str(state_vec_series[i][j])+'\n')
         
 outfile.write('Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations /n')
 for i in range(5):
     for j in range(4):
         for k in range(len(X)):
-            outfile.write('\n'+str(flux_vec_series[k][i][j]))
+            outfile.write(str(flux_vec_series[k][i][j])+'\n')
 
 outfile.close()
 
