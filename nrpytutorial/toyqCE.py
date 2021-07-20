@@ -74,10 +74,10 @@ T, dtT_NrPy = gri.register_gridfunctions("AUX",["T","dtT_NrPy"])
 
 # Declare phi_dDD as a rank-2 indexed expression: phi_dDD[i][j] = \partial_i \partial_j phi
 T_dDD = ixp.declarerank2("T_dDD","nosym")
-#U_dDD = ixp.declarerank2("U_dDD","nosym")
+#T_dDDDD = ixp.declarerank4("T_dDDDD","nosym")
 
 # Set output to \partial_0^2 phi
-dtT_NrPy = T_dDD[0][0] #+ U_dDD[0][0]
+dtT_NrPy = T_dDD[0][0]# + T_dDDDD[0][0][0][0]
 
 # Output to the screen the core C code for evaluating the finite difference derivative
 fin.FD_outputC("stdout",lhrh(lhs=gri.gfaccess("out_gf","dtT_NrPy"),rhs=dtT_NrPy))
