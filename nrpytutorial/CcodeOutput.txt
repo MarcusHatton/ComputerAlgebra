@@ -1,111 +1,157 @@
 STATE VECTOR STARTS
 
 D
-prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
-1
-1
-1
+aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+0
+0
+0
 
 Sx
-prims[ID(Prims::pitx, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)] + aux[ID(Aux::pitx, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
 0
 
 Sy
-prims[ID(Prims::pity, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)] + aux[ID(Aux::pity, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
 0
 
 Sz
-prims[ID(Prims::pitz, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)] + aux[ID(Aux::pitz, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
 0
 
 E
--PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2 - aux[ID(Aux::PiNS, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)] + 2*aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::pitt, i, j, k)]
 0
-tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+tauPi*(aux[ID(Aux::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
 0
 
 FLUX VECTOR STARTS 
-prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
-1
-1
-1
-
-prims[ID(Prims::pitx, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+x
+D
+aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+0
+0
 0
 
-prims[ID(Prims::pity, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+Sx
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)] + aux[ID(Aux::pitx, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
 0
 
-prims[ID(Prims::pitz, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+Sy
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)] + aux[ID(Aux::pity, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
 0
 
--PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
-0
-tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
-0
-
-
-prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
-1
-1
-1
-
-prims[ID(Prims::pitx, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+Sz
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)] + aux[ID(Aux::pitz, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
 0
 
-prims[ID(Prims::pity, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+E
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2 - aux[ID(Aux::PiNS, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)] + 2*aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::pitt, i, j, k)]
 0
-
-prims[ID(Prims::pitz, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
-0
-
--PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
-0
-tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+tauPi*(aux[ID(Aux::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
 0
 
 
-prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
-1
-1
-1
-
-prims[ID(Prims::pitx, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+y
+D
+aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+0
+0
 0
 
-prims[ID(Prims::pity, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+Sx
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)] + aux[ID(Aux::pitx, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
 0
 
-prims[ID(Prims::pitz, i, j, k)]
-tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+Sy
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)] + aux[ID(Aux::pity, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
 0
 
--PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
-0
-tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+Sz
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)] + aux[ID(Aux::pitz, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
 0
 
+E
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2 - aux[ID(Aux::PiNS, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)] + 2*aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::pitt, i, j, k)]
+0
+tauPi*(aux[ID(Aux::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+0
+
+
+z
+D
+aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+0
+0
+0
+
+Sx
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vx, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)] + aux[ID(Aux::pitx, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+0
+
+Sy
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vy, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)] + aux[ID(Aux::pity, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+0
+
+Sz
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)]*prims[ID(Prims::vz, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)] + aux[ID(Aux::pitz, i, j, k)]
+tauq*aux[ID(Aux::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+0
+
+E
+aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]**2 - aux[ID(Aux::PiNS, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::W, i, j, k)]**2*prims[ID(Prims::rho, i, j, k)] + 2*aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + aux[ID(Aux::pitt, i, j, k)]
+0
+tauPi*(aux[ID(Aux::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+0
+
+
+
+Diss LO Corrections START
+aux[ID(Aux::qx1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::qxNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::qxNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::qxNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::qxNS, i, j, k)], t) + aux[ID(Aux::qxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::qxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::qxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::qxNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qxNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::qy1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::qyNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::qyNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::qyNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::qyNS, i, j, k)], t) + aux[ID(Aux::qyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::qyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::qyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::qyNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qyNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::qz1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::qzNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::qzNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::qzNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::qzNS, i, j, k)], t) + aux[ID(Aux::qzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::qzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::qzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::qzNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::qzNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::Pi1, i, j, k)] = -((aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::PiNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::PiNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::PiNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::PiNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::PiNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::PiNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::PiNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::PiNS, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::PiNS, i, j, k)]*aux[ID(Aux::W, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::pixx1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::pixxNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::pixxNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::pixxNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::pixxNS, i, j, k)], t) + aux[ID(Aux::pixxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::pixxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::pixxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::pixxNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixxNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::pixy1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::pixyNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::pixyNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::pixyNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::pixyNS, i, j, k)], t) + aux[ID(Aux::pixyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::pixyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::pixyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::pixyNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixyNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::pixz1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::pixzNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::pixzNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::pixzNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::pixzNS, i, j, k)], t) + aux[ID(Aux::pixzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::pixzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::pixzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::pixzNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pixzNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::piyx1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::piyxNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::piyxNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::piyxNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::piyxNS, i, j, k)], t) + aux[ID(Aux::piyxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::piyxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::piyxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::piyxNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyxNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::piyy1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::piyyNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::piyyNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::piyyNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::piyyNS, i, j, k)], t) + aux[ID(Aux::piyyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::piyyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::piyyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::piyyNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyyNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::piyz1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::piyzNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::piyzNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::piyzNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::piyzNS, i, j, k)], t) + aux[ID(Aux::piyzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::piyzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::piyzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::piyzNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::piyzNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::pizx1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::pizxNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::pizxNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::pizxNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::pizxNS, i, j, k)], t) + aux[ID(Aux::pizxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::pizxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::pizxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::pizxNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizxNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::pizy1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::pizyNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::pizyNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::pizyNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::pizyNS, i, j, k)], t) + aux[ID(Aux::pizyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::pizyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::pizyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::pizyNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizyNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
+
+aux[ID(Aux::pizz1, i, j, k)] = -((aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*Derivative(prims[ID(Prims::vx, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*Derivative(prims[ID(Prims::vy, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*Derivative(prims[ID(Prims::vz, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::pizzNS, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::pizzNS, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::pizzNS, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*Derivative(aux[ID(Aux::pizzNS, i, j, k)], t) + aux[ID(Aux::pizzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], x) + aux[ID(Aux::pizzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], y) + aux[ID(Aux::pizzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], z) + aux[ID(Aux::pizzNS, i, j, k)]*Derivative(aux[ID(Aux::W, i, j, k)], t))*prims[ID(Prims::n, i, j, k)] + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*prims[ID(Prims::vx, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], x) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*prims[ID(Prims::vy, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], y) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*prims[ID(Prims::vz, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], z) + aux[ID(Aux::W, i, j, k)]*aux[ID(Aux::pizzNS, i, j, k)]*Derivative(prims[ID(Prims::n, i, j, k)], t))/prims[ID(Prims::n, i, j, k)]
 

@@ -156,19 +156,25 @@ IS_sys_series = np.zeros((len(IS_sys),4),dtype=type(IS_sys_LO[0]))
 state_vec_series = np.zeros((len(state_vec_LO),4),dtype=type(state_vec_LO[0]))
 flux_vec_series = np.zeros(shape=(flux_vec_LO.shape[0],flux_vec_LO.shape[1],4),dtype=type(IS_sys_LO[0]))
 for i in range(len(IS_sys)):
-    IS_sys_series[i][0] = simplify(IS_sys_LO[i].lhs.as_independent(timescales[0])[0].as_independent(timescales[3])[0].as_independent(timescales[4])[0])
-    state_vec_series[i][0] = simplify(state_vec_LO[i].as_independent(timescales[0])[0].as_independent(timescales[3])[0].as_independent(timescales[4])[0])
+    IS_sys_series[i][0] = simplify(expand(IS_sys_LO[i].lhs).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
+    state_vec_series[i][0] = simplify(expand(state_vec_LO[i]).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
     for k in range(len(X)):
-        flux_vec_series[k][i][0] = simplify(flux_vec_LO[k][i].as_independent(timescales[0])[0].as_independent(timescales[3])[0].as_independent(timescales[4])[0])
+        flux_vec_series[k][i][0] = simplify(expand(flux_vec_LO[k][i]).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
     #print(IS_sys_series[i][0])
     for j in range(3):
     #    IS_sys_LO[i] = IS_sys_LO[i].subs(timescales[j],0)
         # +2 hack ensures one of each timescale
         IS_sys_series[i][j+1] = simplify(expand(IS_sys_LO[i].lhs).as_independent(timescales[j+2])[1])
         state_vec_series[i][j+1] = simplify(expand(state_vec_LO[i]).as_independent(timescales[j+2])[1])
+        # a catch for the 1 returned when the timescale is not present in that component (should be zero therefore)
+        if (state_vec_series[i][j+1] == 1):
+            IS_sys_series[i][j+1] = 0
+        if (state_vec_series[i][j+1] == 1):
+            state_vec_series[i][j+1] = 0
         for k in range(len(X)):
             flux_vec_series[k][i][j+1] = simplify(expand(flux_vec_LO[k][i]).as_independent(timescales[j+2])[1])
-            
+            if(flux_vec_series[k][i][j+1] == 1):
+                flux_vec_series[k][i][j+1] = 0
 
 # for i in range(5): # D, Sx, Sy, Sz, E
 #     for j in range(4): # tau^0, tau^q, tau^Pi, tau^pi
@@ -197,6 +203,10 @@ for i in range(3):
     for j in range(5):
         for k in range(4):
             outfile.write(str(flux_vec_series[i][j][k])+'\n')
+
+outfile.write('First order CE corrections \n')
+for i in range(len(diss1sLO)):
+    outfile.write(str(diss1sLO[i])+'\n')
 
 outfile.close()
 
