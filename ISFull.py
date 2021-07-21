@@ -39,11 +39,13 @@ diss_vars = [qx, qy, qz, Pi, pixx, pixy, pixz, piyx, piyy, piyz, pizx, pizy, piz
 vx, vy, vz = Function('vx')(t, x, y, z), Function('vy')(t, x, y, z), Function('vz')(t, x, y, z)
 vs = [vx, vy, vz]
 p, n, rho  = Function('p')(t, x, y, z), Function('n')(t, x, y, z),Function('rho')(t, x, y, z)
+prim_vars = [vx, vy, vz, p, n, rho]
                   
 # Aux
 T, W = Function('T')(t, x, y, z), Function('W')(t, x, y, z)
 qv, pitt, pitx, pity, pitz = Function('qv')(t, x, y, z), Function('pitt')(t, x, y, z), \
     Function('pitx')(t, x, y, z), Function('pity')(t, x, y, z), Function('pitz')(t, x, y, z)
+aux_vars = [T, W, qv, pitt, pitx, pity, pitz]
 
 # May choose not to define explicitly for readability
 # vsqrd = vx**2 + vy**2 + vz**2
@@ -143,20 +145,63 @@ for i in range(len(IS_sys)):
                     + flux_vec_LO[1][i].diff(y) + flux_vec_LO[2][i].diff(z), 0))
 
 # Separate out the zeroth order parts of the system and each timescale order
-# 4 for the 3 timescales plus one for not one of them
+# 4 for the 3 timescales plus one for not one of them (zeroth order)
 IS_sys_series = np.zeros((len(IS_sys),4),dtype=type(IS_sys_LO[0]))
+state_vec_series = np.zeros((len(state_vec_LO),4),dtype=type(state_vec_LO[0]))
+flux_vec_series = np.zeros(shape=(flux_vec_LO.shape[0],flux_vec_LO.shape[1],4),dtype=type(IS_sys_LO[0]))
 for i in range(len(IS_sys)):
-    IS_sys_series[i][0] = simplify(IS_sys_LO[i].lhs.as_independent(timescales[0])[0].as_independent(timescales[3])[0].as_independent(timescales[4])[0])
+    IS_sys_series[i][0] = simplify(expand(IS_sys_LO[i].lhs).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
+    state_vec_series[i][0] = simplify(expand(state_vec_LO[i]).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
+    for k in range(len(X)):
+        flux_vec_series[k][i][0] = simplify(expand(flux_vec_LO[k][i]).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
     #print(IS_sys_series[i][0])
     for j in range(3):
     #    IS_sys_LO[i] = IS_sys_LO[i].subs(timescales[j],0)
         # +2 hack ensures one of each timescale
         IS_sys_series[i][j+1] = simplify(expand(IS_sys_LO[i].lhs).as_independent(timescales[j+2])[1])
+        state_vec_series[i][j+1] = simplify(expand(state_vec_LO[i]).as_independent(timescales[j+2])[1])
+        # a catch for the 1 returned when the timescale is not present in that component (should be zero therefore)
+        if (state_vec_series[i][j+1] == 1):
+            IS_sys_series[i][j+1] = 0
+        if (state_vec_series[i][j+1] == 1):
+            state_vec_series[i][j+1] = 0
+        for k in range(len(X)):
+            flux_vec_series[k][i][j+1] = simplify(expand(flux_vec_LO[k][i]).as_independent(timescales[j+2])[1])
+            if(flux_vec_series[k][i][j+1] == 1):
+                flux_vec_series[k][i][j+1] = 0
 
-for i in range(3):
+# for i in range(5): # D, Sx, Sy, Sz, E
+#     for j in range(4): # tau^0, tau^q, tau^Pi, tau^pi
+#         print(i, j)
+#         #print(IS_sys_series[i][j])
+#         print("state vector")
+#         print(state_vec_series[i][j])
+#         print("flux vectors")
+#         for k in range(len(X)):
+#             print(k)
+#             print(flux_vec_series[k][i][j])
+#         print('\n')
+#     print('\n')
+
+
+# Write the un-differentiated state and flux vectors to file
+outfile = open('ISFullOutput.txt','w')
+
+outfile.write('State Vector (5x4): 5 components, 4 timescale separations \n')
+for i in range(5):
     for j in range(4):
-        print(IS_sys_series[i][j])
-        print('\n')
-    print('\n')
+        outfile.write(str(state_vec_series[i][j])+'\n')
+        
+outfile.write('Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations \n')
+for i in range(3):
+    for j in range(5):
+        for k in range(4):
+            outfile.write(str(flux_vec_series[i][j][k])+'\n')
+
+outfile.write('First order CE corrections \n')
+for i in range(len(diss1sLO)):
+    outfile.write(str(diss1sLO[i])+'\n')
+
+outfile.close()
 
 
