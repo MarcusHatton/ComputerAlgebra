@@ -192,11 +192,11 @@ for i in range(5):
     for j in range(4):
         outfile.write(str(state_vec_series[i][j])+'\n')
         
-outfile.write('Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations /n')
-for i in range(5):
-    for j in range(4):
-        for k in range(len(X)):
-            outfile.write(str(flux_vec_series[k][i][j])+'\n')
+outfile.write('Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations \n')
+for i in range(3):
+    for j in range(5):
+        for k in range(4):
+            outfile.write(str(flux_vec_series[i][j][k])+'\n')
 
 outfile.close()
 

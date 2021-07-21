@@ -19,63 +19,64 @@ tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vz(t, x, y, z)
 0
 tauPi*(W(t, x, y, z)**2 - 1)*Pi1(t, x, y, z)
 0
-Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations /nW(t, x, y, z)*n(t, x, y, z)*vx(t, x, y, z)
-W(t, x, y, z)*n(t, x, y, z)*vy(t, x, y, z)
-W(t, x, y, z)*n(t, x, y, z)*vz(t, x, y, z)
-1
-1
-1
-1
-1
-1
+Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations 
+W(t, x, y, z)*n(t, x, y, z)*vx(t, x, y, z)
 1
 1
 1
 PiNS(t, x, y, z) + W(t, x, y, z)**2*p(t, x, y, z)*vx(t, x, y, z)**2 + W(t, x, y, z)**2*rho(t, x, y, z)*vx(t, x, y, z)**2 + p(t, x, y, z) + pitx(t, x, y, z)*vx(t, x, y, z)
-(W(t, x, y, z)**2*p(t, x, y, z)*vx(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vx(t, x, y, z) + pitx(t, x, y, z))*vy(t, x, y, z)
-(W(t, x, y, z)**2*p(t, x, y, z)*vx(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vx(t, x, y, z) + pitx(t, x, y, z))*vz(t, x, y, z)
 2*tauq*W(t, x, y, z)*qx1(t, x, y, z)*vx(t, x, y, z)
-tauq*(qx1(t, x, y, z)*vy(t, x, y, z) + qy1(t, x, y, z)*vx(t, x, y, z))*W(t, x, y, z)
-tauq*(qx1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vx(t, x, y, z))*W(t, x, y, z)
 tauPi*(W(t, x, y, z)**2*vx(t, x, y, z)**2 + 1)*Pi1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vx(t, x, y, z)*vy(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vx(t, x, y, z)*vz(t, x, y, z)
-0
-0
 0
 (W(t, x, y, z)**2*p(t, x, y, z)*vy(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vy(t, x, y, z) + pity(t, x, y, z))*vx(t, x, y, z)
-PiNS(t, x, y, z) + W(t, x, y, z)**2*p(t, x, y, z)*vy(t, x, y, z)**2 + W(t, x, y, z)**2*rho(t, x, y, z)*vy(t, x, y, z)**2 + p(t, x, y, z) + pity(t, x, y, z)*vy(t, x, y, z)
-(W(t, x, y, z)**2*p(t, x, y, z)*vy(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vy(t, x, y, z) + pity(t, x, y, z))*vz(t, x, y, z)
 tauq*(qx1(t, x, y, z)*vy(t, x, y, z) + qy1(t, x, y, z)*vx(t, x, y, z))*W(t, x, y, z)
-2*tauq*W(t, x, y, z)*qy1(t, x, y, z)*vy(t, x, y, z)
-tauq*(qy1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vy(t, x, y, z))*W(t, x, y, z)
 tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vx(t, x, y, z)*vy(t, x, y, z)
-tauPi*(W(t, x, y, z)**2*vy(t, x, y, z)**2 + 1)*Pi1(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vy(t, x, y, z)*vz(t, x, y, z)
-0
-0
 0
 (W(t, x, y, z)**2*p(t, x, y, z)*vz(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vz(t, x, y, z) + pitz(t, x, y, z))*vx(t, x, y, z)
-(W(t, x, y, z)**2*p(t, x, y, z)*vz(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vz(t, x, y, z) + pitz(t, x, y, z))*vy(t, x, y, z)
-PiNS(t, x, y, z) + W(t, x, y, z)**2*p(t, x, y, z)*vz(t, x, y, z)**2 + W(t, x, y, z)**2*rho(t, x, y, z)*vz(t, x, y, z)**2 + p(t, x, y, z) + pitz(t, x, y, z)*vz(t, x, y, z)
 tauq*(qx1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vx(t, x, y, z))*W(t, x, y, z)
-tauq*(qy1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vy(t, x, y, z))*W(t, x, y, z)
-2*tauq*W(t, x, y, z)*qz1(t, x, y, z)*vz(t, x, y, z)
 tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vx(t, x, y, z)*vz(t, x, y, z)
-tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vy(t, x, y, z)*vz(t, x, y, z)
-tauPi*(W(t, x, y, z)**2*vz(t, x, y, z)**2 + 1)*Pi1(t, x, y, z)
-0
-0
 0
 (W(t, x, y, z)**2*p(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z) + W(t, x, y, z)*qv(t, x, y, z) + pitt(t, x, y, z))*vx(t, x, y, z)
-(W(t, x, y, z)**2*p(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z) + W(t, x, y, z)*qv(t, x, y, z) + pitt(t, x, y, z))*vy(t, x, y, z)
-(W(t, x, y, z)**2*p(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z) + W(t, x, y, z)*qv(t, x, y, z) + pitt(t, x, y, z))*vz(t, x, y, z)
 tauq*W(t, x, y, z)*qx1(t, x, y, z)
-tauq*W(t, x, y, z)*qy1(t, x, y, z)
-tauq*W(t, x, y, z)*qz1(t, x, y, z)
 tauPi*(W(t, x, y, z)**2 - 1)*Pi1(t, x, y, z)*vx(t, x, y, z)
+0
+W(t, x, y, z)*n(t, x, y, z)*vy(t, x, y, z)
+1
+1
+1
+(W(t, x, y, z)**2*p(t, x, y, z)*vx(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vx(t, x, y, z) + pitx(t, x, y, z))*vy(t, x, y, z)
+tauq*(qx1(t, x, y, z)*vy(t, x, y, z) + qy1(t, x, y, z)*vx(t, x, y, z))*W(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vx(t, x, y, z)*vy(t, x, y, z)
+0
+PiNS(t, x, y, z) + W(t, x, y, z)**2*p(t, x, y, z)*vy(t, x, y, z)**2 + W(t, x, y, z)**2*rho(t, x, y, z)*vy(t, x, y, z)**2 + p(t, x, y, z) + pity(t, x, y, z)*vy(t, x, y, z)
+2*tauq*W(t, x, y, z)*qy1(t, x, y, z)*vy(t, x, y, z)
+tauPi*(W(t, x, y, z)**2*vy(t, x, y, z)**2 + 1)*Pi1(t, x, y, z)
+0
+(W(t, x, y, z)**2*p(t, x, y, z)*vz(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vz(t, x, y, z) + pitz(t, x, y, z))*vy(t, x, y, z)
+tauq*(qy1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vy(t, x, y, z))*W(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vy(t, x, y, z)*vz(t, x, y, z)
+0
+(W(t, x, y, z)**2*p(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z) + W(t, x, y, z)*qv(t, x, y, z) + pitt(t, x, y, z))*vy(t, x, y, z)
+tauq*W(t, x, y, z)*qy1(t, x, y, z)
 tauPi*(W(t, x, y, z)**2 - 1)*Pi1(t, x, y, z)*vy(t, x, y, z)
+0
+W(t, x, y, z)*n(t, x, y, z)*vz(t, x, y, z)
+1
+1
+1
+(W(t, x, y, z)**2*p(t, x, y, z)*vx(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vx(t, x, y, z) + pitx(t, x, y, z))*vz(t, x, y, z)
+tauq*(qx1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vx(t, x, y, z))*W(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vx(t, x, y, z)*vz(t, x, y, z)
+0
+(W(t, x, y, z)**2*p(t, x, y, z)*vy(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z)*vy(t, x, y, z) + pity(t, x, y, z))*vz(t, x, y, z)
+tauq*(qy1(t, x, y, z)*vz(t, x, y, z) + qz1(t, x, y, z)*vy(t, x, y, z))*W(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*W(t, x, y, z)**2*vy(t, x, y, z)*vz(t, x, y, z)
+0
+PiNS(t, x, y, z) + W(t, x, y, z)**2*p(t, x, y, z)*vz(t, x, y, z)**2 + W(t, x, y, z)**2*rho(t, x, y, z)*vz(t, x, y, z)**2 + p(t, x, y, z) + pitz(t, x, y, z)*vz(t, x, y, z)
+2*tauq*W(t, x, y, z)*qz1(t, x, y, z)*vz(t, x, y, z)
+tauPi*(W(t, x, y, z)**2*vz(t, x, y, z)**2 + 1)*Pi1(t, x, y, z)
+0
+(W(t, x, y, z)**2*p(t, x, y, z) + W(t, x, y, z)**2*rho(t, x, y, z) + W(t, x, y, z)*qv(t, x, y, z) + pitt(t, x, y, z))*vz(t, x, y, z)
+tauq*W(t, x, y, z)*qz1(t, x, y, z)
 tauPi*(W(t, x, y, z)**2 - 1)*Pi1(t, x, y, z)*vz(t, x, y, z)
-0
-0
 0

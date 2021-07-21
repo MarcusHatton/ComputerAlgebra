@@ -1,0 +1,111 @@
+STATE VECTOR STARTS
+
+D
+prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+1
+1
+1
+
+Sx
+prims[ID(Prims::pitx, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+0
+
+Sy
+prims[ID(Prims::pity, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+0
+
+Sz
+prims[ID(Prims::pitz, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+0
+
+E
+-PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
+0
+tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+0
+
+FLUX VECTOR STARTS 
+prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+1
+1
+1
+
+prims[ID(Prims::pitx, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+0
+
+prims[ID(Prims::pity, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+0
+
+prims[ID(Prims::pitz, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+0
+
+-PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
+0
+tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+0
+
+
+prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+1
+1
+1
+
+prims[ID(Prims::pitx, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+0
+
+prims[ID(Prims::pity, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+0
+
+prims[ID(Prims::pitz, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+0
+
+-PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
+0
+tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+0
+
+
+prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::n, i, j, k)]
+1
+1
+1
+
+prims[ID(Prims::pitx, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qx1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vx, i, j, k)]
+0
+
+prims[ID(Prims::pity, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qy1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vy, i, j, k)]
+0
+
+prims[ID(Prims::pitz, i, j, k)]
+tauq*prims[ID(Prims::W, i, j, k)]*qz1(t, x, y, z)
+tauPi*Pi1(t, x, y, z)*prims[ID(Prims::W, i, j, k)]**2*prims[ID(Prims::vz, i, j, k)]
+0
+
+-PiNS(t, x, y, z) + 2*prims[ID(Prims::W, i, j, k)]*prims[ID(Prims::qv, i, j, k)] - prims[ID(Prims::p, i, j, k)] + prims[ID(Prims::pitt, i, j, k)]
+0
+tauPi*(prims[ID(Prims::W, i, j, k)]**2 - 1)*Pi1(t, x, y, z)
+0
+
+
