@@ -52,7 +52,8 @@ for i in range(5):
             svs_str[i][j] = svs_str[i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
             for k in range(3):
                 fvs_str[k][i][j] = svs_str[i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
-
+            
+            
         for diss_var in diss_vars:
             svs_str[i][j] = svs_str[i][j].replace(str(diss_var)+func_of,'prims[ID(Prims::'+str(diss_var)+components)
             for k in range(3):
@@ -77,6 +78,8 @@ for i in range(13):
                                       '((prims[ID(Prims::'+str(prim_var)+', i, j+1, k)] - prims[ID(Prims::'+str(prim_var)+', i, j-1, k)])/(d->dy))')
         LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', z)', \
                                       '((prims[ID(Prims::'+str(prim_var)+', i, j, k+1)] - prims[ID(Prims::'+str(prim_var)+', i, j, k-1)])/(d->dz))')
+        LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t)', \
+                                      'tderivs[ID(TDerivs::'+str(prim_var)+', i, j, k)]')
 
 
     for diss_var in diss_vars:
@@ -87,26 +90,29 @@ for i in range(13):
                                       '((prims[ID(Prims::'+str(diss_var)+', i, j+1, k)] - prims[ID(Prims::'+str(diss_var)+', i, j-1, k)])/(d->dy))')
         LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(diss_var)+components+', z)', \
                                       '((prims[ID(Prims::'+str(diss_var)+', i, j, k+1)] - prims[ID(Prims::'+str(diss_var)+', i, j, k-1)])/(d->dz))')
-
+        LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(diss_var)+components+', t)', \
+                                      'tderivs[ID(TDerivs::'+str(diss_var)+', i, j, k)]')
 
     for aux_var in aux_vars:
         LO_str[i] = LO_str[i].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
-        LO_str[i] = LO_str[i].replace('Derivative(aux(ID(Aux::'+str(aux_var)+components+', x)', \
-                                      '((aux(ID(Aux::'+str(aux_var)+', i+1, j, k)] - aux(ID(Aux::'+str(aux_var)+', i-1, j, k)])/(d->dx))')
-        LO_str[i] = LO_str[i].replace('Derivative(aux(ID(Aux::'+str(aux_var)+components+', y)', \
-                                      '((aux(ID(Aux::'+str(aux_var)+', i, j+1, k)] - aux(ID(Aux::'+str(aux_var)+', i, j-1, k)])/(d->dy))')
-        LO_str[i] = LO_str[i].replace('Derivative(aux(ID(Aux::'+str(aux_var)+components+', z)', \
-                                      '((aux(ID(Aux::'+str(aux_var)+', i, j, k+1)] - aux(ID(Aux::'+str(aux_var)+', i, j, k-1)])/(d->dz))')
-
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', x)', \
+                                      '((aux[ID(Aux::'+str(aux_var)+', i+1, j, k)] - aux[ID(Aux::'+str(aux_var)+', i-1, j, k)])/(d->dx))')
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', y)', \
+                                      '((aux[ID(Aux::'+str(aux_var)+', i, j+1, k)] - aux[ID(Aux::'+str(aux_var)+', i, j-1, k)])/(d->dy))')
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', z)', \
+                                      '((aux[ID(Aux::'+str(aux_var)+', i, j, k+1)] - aux[ID(Aux::'+str(aux_var)+', i, j, k-1)])/(d->dz))')
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t)', \
+                                      'tderivs[ID(TDerivs::'+str(aux_var)+', i, j, k)]')
     for dissNS in dissNSs:
         LO_str[i] = LO_str[i].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
-        LO_str[i] = LO_str[i].replace('Derivative(aux(ID(Aux::'+str(dissNS)+components+', x)', \
-                                      '((aux(ID(Aux::'+str(dissNS)+', i+1, j, k)] - aux(ID(Aux::'+str(dissNS)+', i-1, j, k)])/(d->dx))')
-        LO_str[i] = LO_str[i].replace('Derivative(aux(ID(Aux::'+str(dissNS)+components+', y)', \
-                                      '((aux(ID(Aux::'+str(dissNS)+', i, j+1, k)] - aux(ID(Aux::'+str(dissNS)+', i, j-1, k)])/(d->dy))')
-        LO_str[i] = LO_str[i].replace('Derivative(aux(ID(Aux::'+str(dissNS)+components+', z)', \
-                                      '((aux(ID(Aux::'+str(dissNS)+', i, j, k+1)] - aux(ID(Aux::'+str(dissNS)+', i, j, k-1)])/(d->dz))')
-
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', x)', \
+                                      '((aux[ID(Aux::'+str(dissNS)+', i+1, j, k)] - aux[ID(Aux::'+str(dissNS)+', i-1, j, k)])/(d->dx))')
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', y)', \
+                                      '((aux[ID(Aux::'+str(dissNS)+', i, j+1, k)] - aux[ID(Aux::'+str(dissNS)+', i, j-1, k)])/(d->dy))')
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', z)', \
+                                      '((aux[ID(Aux::'+str(dissNS)+', i, j, k+1)] - aux[ID(Aux::'+str(dissNS)+', i, j, k-1)])/(d->dz))')
+        LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', t)', \
+                                      'tderivs[ID(TDerivs::'+str(dissNS)+', i, j, k)]')
 
 
 state_vec = ['D', 'Sx', 'Sy', 'Sz', 'E']
