@@ -50,11 +50,11 @@ aux_vars = [T, W, qv, pitt, pitx, pity, pitz]
 # May choose not to define explicitly for readability
 # vsqrd = vx**2 + vy**2 + vz**2
 # W = 1/sqrt(1-vsqrd)
-# qv = qx*vx + qy*vy + qz*vz
-# pitt = pixx + piyy + pizz
-# pitx = vx*pixx + vy*pixy + vz*pixz
-# pity = vx*piyz + vy*piyy + vz*piyz
-# pitz = vx*pizx + vy*pizy + vz*pizz
+qv = qx*vx + qy*vy + qz*vz
+pitt = pixx + piyy + pizz
+pitx = vx*pixx + vy*pixy + vz*pixz
+pity = vx*piyz + vy*piyy + vz*piyz
+pitz = vx*pizx + vy*pizy + vz*pizz
 
 # CE LO Corrections
 qx1, qy1, qz1 = Function('qx1')(t, x, y, z), Function('qy1')(t, x, y, z), Function('qz1')(t, x, y, z)
