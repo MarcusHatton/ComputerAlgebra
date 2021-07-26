@@ -26,75 +26,74 @@ X = [x, y, z]
 
 # Dependent vars
 # Diss vars
-qx, qy, qz = Function('qx')(t, x, y, z), Function('qy')(t, x, y, z), Function('qz')(t, x, y, z)
-qs = [qx, qy, qz]
+q1, q2, q3 = Function('q1')(t, x, y, z), Function('q2')(t, x, y, z), Function('q3')(t, x, y, z)
+qs = [q1, q2, q3]
 Pi =  Function('Pi')(t, x, y, z)
-pixx, pixy, pixz, piyx, piyy, piyz, pizx, pizy, pizz = \
-    Function('pixx')(t, x, y, z), Function('pixy')(t, x, y, z), Function('pixz')(t, x, y, z), \
-    Function('piyx')(t, x, y, z), Function('piyy')(t, x, y, z), Function('piyz')(t, x, y, z), \
-    Function('pizx')(t, x, y, z), Function('pizy')(t, x, y, z), Function('pizz')(t, x, y, z)
-diss_vars = [qx, qy, qz, Pi, pixx, pixy, pixz, piyx, piyy, piyz, pizx, pizy, pizz]
+pi11, pi12, pi13, pi21, pi22, pi23, pi31, pi32, pi33 = \
+    Function('pi11')(t, x, y, z), Function('pi12')(t, x, y, z), Function('pi13')(t, x, y, z), \
+    Function('pi21')(t, x, y, z), Function('pi22')(t, x, y, z), Function('pi23')(t, x, y, z), \
+    Function('pi31')(t, x, y, z), Function('pi32')(t, x, y, z), Function('pi33')(t, x, y, z)
+diss_vars = [q1, q2, q3, Pi, pi11, pi12, pi13, pi21, pi22, pi23, pi31, pi32, pi33]
 
 # Prims
-vx, vy, vz = Function('vx')(t, x, y, z), Function('vy')(t, x, y, z), Function('vz')(t, x, y, z)
-vs = [vx, vy, vz]
+v1, v2, v3 = Function('v1')(t, x, y, z), Function('v2')(t, x, y, z), Function('v3')(t, x, y, z)
+vs = [v1, v2, v3]
 p, n, rho  = Function('p')(t, x, y, z), Function('n')(t, x, y, z),Function('rho')(t, x, y, z)
-prim_vars = [vx, vy, vz, p, n, rho]
+prim_vars = [v1, v2, v3, p, n, rho]
                   
 # Aux
 T, W = Function('T')(t, x, y, z), Function('W')(t, x, y, z)
-qv, pitt, pitx, pity, pitz = Function('qv')(t, x, y, z), Function('pitt')(t, x, y, z), \
-    Function('pitx')(t, x, y, z), Function('pity')(t, x, y, z), Function('pitz')(t, x, y, z)
-aux_vars = [T, W, qv, pitt, pitx, pity, pitz]
+qv, pi00, pi01, pi02, pi03 = Function('qv')(t, x, y, z), Function('pi00')(t, x, y, z), \
+    Function('pi01')(t, x, y, z), Function('pi02')(t, x, y, z), Function('pi03')(t, x, y, z)
+aux_vars = [T, W, qv, pi00, pi01, pi02, pi03]
 
 # May choose not to define explicitly for readability
-# vsqrd = vx**2 + vy**2 + vz**2
+# vsqrd = v1**2 + v2**2 + v3**2
 # W = 1/sqrt(1-vsqrd)
-qv = qx*vx + qy*vy + qz*vz
-pitt = pixx + piyy + pizz
-pitx = vx*pixx + vy*pixy + vz*pixz
-pity = vx*piyz + vy*piyy + vz*piyz
-pitz = vx*pizx + vy*pizy + vz*pizz
+qv = q1*v1 + q2*v2 + q3*v3
+pi00 = pi11 + pi22 + pi33
+pi01 = v1*pi11 + v2*pi12 + v3*pi13
+pi02 = v1*pi21 + v2*pi22 + v3*pi23
+pi03 = v1*pi31 + v2*pi32 + v3*pi33
 
 # CE LO Corrections
-qx1, qy1, qz1 = Function('qx1')(t, x, y, z), Function('qy1')(t, x, y, z), Function('qz1')(t, x, y, z)
-Pi1 =  Function('Pi1')(t, x, y, z)
-pixx1, pixy1, pixz1, piyx1, piyy1, piyz1, pizx1, pizy1, pizz1 = \
-    Function('pixx1')(t, x, y, z), Function('pixy1')(t, x, y, z), Function('pixz1')(t, x, y, z), \
-    Function('piyx1')(t, x, y, z), Function('piyy1')(t, x, y, z), Function('piyz1')(t, x, y, z), \
-    Function('pizx1')(t, x, y, z), Function('pizy1')(t, x, y, z), Function('pizz1')(t, x, y, z)
-diss1s = [qx1, qy1, qz1, Pi1, pixx1, pixy1, pixz1, piyx1, piyy1, piyz1, pizx1, pizy1, pizz1]
+q1LO, q2LO, q3LO = Function('q1LO')(t, x, y, z), Function('q2LO')(t, x, y, z), Function('q3LO')(t, x, y, z)
+PiLO =  Function('PiLO')(t, x, y, z)
+pi11LO, pi12LO, pi13LO, pi21LO, pi22LO, pi23LO, pi31LO, pi32LO, pi33LO = \
+    Function('pi11LO')(t, x, y, z), Function('pi12LO')(t, x, y, z), Function('pi13LO')(t, x, y, z), \
+    Function('pi21LO')(t, x, y, z), Function('pi22LO')(t, x, y, z), Function('pi23LO')(t, x, y, z), \
+    Function('pi31LO')(t, x, y, z), Function('pi32LO')(t, x, y, z), Function('pi33LO')(t, x, y, z)
+diss1s = [q1LO, q2LO, q3LO, PiLO, pi11LO, pi12LO, pi13LO, pi21LO, pi22LO, pi23LO, pi31LO, pi32LO, pi33LO]
 
 # state vector
 D = n*W
-Sx = (rho + p + Pi)*W**2*vx + (qx + qv*vx)*W + pitx
-Sy = (rho + p + Pi)*W**2*vy + (qy + qv*vy)*W + pity
-Sz = (rho + p + Pi)*W**2*vz + (qz + qv*vz)*W + pitz
-E = (rho + p + Pi)*W**2 - (p + Pi) + 2*qv*W + pitt
+Sx = (rho + p + Pi)*W**2*v1 + (q1 + qv*v1)*W + pi01
+Sy = (rho + p + Pi)*W**2*v2 + (q2 + qv*v2)*W + pi02
+Sz = (rho + p + Pi)*W**2*v3 + (q3 + qv*v3)*W + pi03
+E = (rho + p + Pi)*W**2 - (p + Pi) + 2*qv*W + pi00
 state_vec = [D, Sx, Sy, Sz, E]
 
 # flux vector
 flux_vec = np.zeros((3,len(state_vec)),dtype=type(state_vec[0]))
 for i in range(3):
     flux_vec[i][0] = state_vec[0]*vs[i]
-    flux_vec[i][1] = state_vec[1]*vs[i] + W*(qs[i]*vx - qv*vs[i]*vx) 
-    flux_vec[i][2] = state_vec[2]*vs[i] + W*(qs[i]*vy - qv*vs[i]*vy) 
-    flux_vec[i][3] = state_vec[3]*vs[i] + W*(qs[i]*vz - qv*vs[i]*vz) 
+    flux_vec[i][1] = state_vec[1]*vs[i] + W*(qs[i]*v1 - qv*vs[i]*v1) 
+    flux_vec[i][2] = state_vec[2]*vs[i] + W*(qs[i]*v2 - qv*vs[i]*v2) 
+    flux_vec[i][3] = state_vec[3]*vs[i] + W*(qs[i]*v3 - qv*vs[i]*v3) 
     flux_vec[i][i+1] += (p + Pi)
     flux_vec[i][4] = (state_vec[4] + p)*vs[i] + W*(qs[i] - qv*vs[i]) 
     for j in range(len(state_vec)):
         flux_vec[i][j] = simplify(expand(flux_vec[i][j]))
-print(flux_vec[1][0])
 
 # source vector
 # Navier-Stokes equ forms
-qxNS, qyNS, qzNS = Function('qxNS')(t, x, y, z), Function('qyNS')(t, x, y, z), Function('qzNS')(t, x, y, z)
+q1NS, q2NS, q3NS = Function('q1NS')(t, x, y, z), Function('q2NS')(t, x, y, z), Function('q3NS')(t, x, y, z)
 PiNS =  Function('PiNS')(t, x, y, z)
-pixxNS, pixyNS, pixzNS, piyxNS, piyyNS, piyzNS, pizxNS, pizyNS, pizzNS = \
-    Function('pixxNS')(t, x, y, z), Function('pixyNS')(t, x, y, z), Function('pixzNS')(t, x, y, z), \
-    Function('piyxNS')(t, x, y, z), Function('piyyNS')(t, x, y, z), Function('piyzNS')(t, x, y, z), \
-    Function('pizxNS')(t, x, y, z), Function('pizyNS')(t, x, y, z), Function('pizzNS')(t, x, y, z)
-dissNSs = [qxNS, qyNS, qzNS, PiNS, pixxNS, pixyNS, pixzNS, piyxNS, piyyNS, piyzNS, pizxNS, pizyNS, pizzNS]
+pi11NS, pi12NS, pi13NS, pi21NS, pi22NS, pi23NS, pi31NS, pi32NS, pi33NS = \
+    Function('pi11NS')(t, x, y, z), Function('pi12NS')(t, x, y, z), Function('pi13NS')(t, x, y, z), \
+    Function('pi21NS')(t, x, y, z), Function('pi22NS')(t, x, y, z), Function('pi23NS')(t, x, y, z), \
+    Function('pi31NS')(t, x, y, z), Function('pi32NS')(t, x, y, z), Function('pi33NS')(t, x, y, z)
+dissNSs = [q1NS, q2NS, q3NS, PiNS, pi11NS, pi12NS, pi13NS, pi21NS, pi22NS, pi23NS, pi31NS, pi32NS, pi33NS]
 
 # Will need to define these at some point...
 #dissNSs[0] = -strengths[0]*T.diff(x)
@@ -118,8 +117,8 @@ diss_sourcesLO = np.zeros_like(diss_sources)
 for i in range(len(diss_sources)):
     # Calc diss1s to LO
     diss_sourcesLO[i] = diss_sources[i].subs(diss_vars[i],dissNSs[i] + timescales[i]*diss1s[i])
-    diss_eqsLO[i] = simplify(Eq((D*dissNSs[i]).diff(t) + (D*dissNSs[i]*vx).diff(x) + \
-                    (D*dissNSs[i]*vy).diff(y) + (D*dissNSs[i]*vz).diff(z), diss_sourcesLO[i]))
+    diss_eqsLO[i] = simplify(Eq((D*dissNSs[i]).diff(t) + (D*dissNSs[i]*v1).diff(x) + \
+                    (D*dissNSs[i]*v2).diff(y) + (D*dissNSs[i]*v3).diff(z), diss_sourcesLO[i]))
     #diss_eqsLO[i] = diss_eqs[i].subs(diss_vars[i],dissNSs[i] + timescales[i]*diss1s[i])
     #diss_eqsLO[i] = diss_eqs[i].subs(timescales[i],0)
     diss1sLO[i] = simplify(solve(diss_eqsLO[i],diss1s[i])[0])
@@ -170,8 +169,6 @@ for i in range(len(IS_sys)):
             flux_vec_series[k][i][j+1] = simplify(expand(flux_vec_LO[k][i]).as_independent(timescales[j+2])[1])
             if(flux_vec_series[k][i][j+1] == 1):
                 flux_vec_series[k][i][j+1] = 0
-
-print(flux_vec_series[0][0][:])
 
 # for i in range(5): # D, Sx, Sy, Sz, E
 #     for j in range(4): # tau^0, tau^q, tau^Pi, tau^pi
