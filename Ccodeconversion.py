@@ -25,10 +25,10 @@ for i in range(5):
 # Another line of flex before the flux vector        
 print(infile.readline())
 # Read in flux vector components
-for i in range(5):
-    for j in range(4):
-        for k in range(3):
-            fvs_str[k][i][j] = str(infile.readline())
+for i in range(3):
+    for j in range(5):
+        for k in range(4):
+            fvs_str[i][j][k] = str(infile.readline())
 
 # Another line of text before LO CE Correction expressions
 print(infile.readline())
@@ -51,23 +51,23 @@ for i in range(5):
         for prim_var in prim_vars:
             svs_str[i][j] = svs_str[i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
             for k in range(3):
-                fvs_str[k][i][j] = svs_str[i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
+                fvs_str[k][i][j] = fvs_str[k][i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
             
             
         for diss_var in diss_vars:
             svs_str[i][j] = svs_str[i][j].replace(str(diss_var)+func_of,'prims[ID(Prims::'+str(diss_var)+components)
             for k in range(3):
-                fvs_str[k][i][j] = svs_str[i][j].replace(str(diss_var)+func_of,'prims[ID(Prims::'+str(diss_var)+components)
+                fvs_str[k][i][j] = fvs_str[k][i][j].replace(str(diss_var)+func_of,'prims[ID(Prims::'+str(diss_var)+components)
 
         for aux_var in aux_vars:
             svs_str[i][j] = svs_str[i][j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
             for k in range(3):
-                fvs_str[k][i][j] = svs_str[i][j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
+                fvs_str[k][i][j] = fvs_str[k][i][j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
 
         for dissNS in dissNSs:
             svs_str[i][j] = svs_str[i][j].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
             for k in range(3):
-                fvs_str[k][i][j] = svs_str[i][j].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
+                fvs_str[k][i][j] = fvs_str[k][i][j].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
 
 for i in range(13):
     for prim_var in prim_vars:
@@ -123,7 +123,11 @@ outfile.write('STATE VECTOR STARTS\n')
 for i in range(5):
     outfile.write('\n'+state_vec[i]+'\n')
     for j in range(4):
-        outfile.write(svs_str[i][j])
+        outfile.write(svs_str[i][j].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
+                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
+                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
+                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])'))
+            
 
 dirs = ['x', 'y', 'z']
 outfile.write('\nFLUX VECTOR STARTS \n')
@@ -132,13 +136,19 @@ for i in range(3):
     for j in range(5):
         outfile.write(state_vec[j]+'\n')
         for k in range(4):
-            outfile.write(fvs_str[i][j][k])
+            outfile.write(fvs_str[i][j][k].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
+                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
+                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
+                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])'))
         outfile.write('\n')
     outfile.write('\n')
 
 outfile.write('\nDiss LO Corrections START'+'\n')
 for i in range(13):
-    outfile.write('aux[ID(Aux::'+diss1s[i]+components+' = '+LO_str[i])
+    outfile.write('aux[ID(Aux::'+diss1s[i]+components+' = '+LO_str[i].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
+                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
+                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
+                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])'))
     outfile.write('\n')
 
 outfile.close()

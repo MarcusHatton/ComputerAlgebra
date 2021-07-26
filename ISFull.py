@@ -9,10 +9,10 @@ from sympy import *
 import numpy as np
 
 # Setup symbols
-kappa, tauq, zeta, tauPi, eta, taupi = symbols('kappa tauq zeta tauPi eta taupi', real=True, positive=True)
+kappa, tau_q, zeta, tau_Pi, eta, tau_pi = symbols('kappa tau_q zeta tau_Pi eta tau_pi', real=True, positive=True)
 strengths = [kappa,zeta,eta]
 # This looks v silly but it makes some loops nicer
-timescales = [tauq, tauq, tauq, tauPi, taupi, taupi, taupi, taupi, taupi, taupi, taupi, taupi, taupi]
+timescales = [tau_q, tau_q, tau_q, tau_Pi, tau_pi, tau_pi, tau_pi, tau_pi, tau_pi, tau_pi, tau_pi, tau_pi, tau_pi]
 
 # Using epsilon?
 epsilon = symbols('epsilon',positive=True,real=True)
@@ -84,6 +84,7 @@ for i in range(3):
     flux_vec[i][4] = (state_vec[4] + p)*vs[i] + W*(qs[i] - qv*vs[i]) 
     for j in range(len(state_vec)):
         flux_vec[i][j] = simplify(expand(flux_vec[i][j]))
+print(flux_vec[1][0])
 
 # source vector
 # Navier-Stokes equ forms
@@ -150,10 +151,10 @@ IS_sys_series = np.zeros((len(IS_sys),4),dtype=type(IS_sys_LO[0]))
 state_vec_series = np.zeros((len(state_vec_LO),4),dtype=type(state_vec_LO[0]))
 flux_vec_series = np.zeros(shape=(flux_vec_LO.shape[0],flux_vec_LO.shape[1],4),dtype=type(IS_sys_LO[0]))
 for i in range(len(IS_sys)):
-    IS_sys_series[i][0] = simplify(expand(IS_sys_LO[i].lhs).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
-    state_vec_series[i][0] = simplify(expand(state_vec_LO[i]).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
+    IS_sys_series[i][0] = simplify(expand(IS_sys_LO[i].lhs).as_independent(tau_q)[0].as_independent(tau_Pi)[0].as_independent(tau_pi)[0])
+    state_vec_series[i][0] = simplify(expand(state_vec_LO[i]).as_independent(tau_q)[0].as_independent(tau_Pi)[0].as_independent(tau_pi)[0])
     for k in range(len(X)):
-        flux_vec_series[k][i][0] = simplify(expand(flux_vec_LO[k][i]).as_independent(tauq)[0].as_independent(tauPi)[0].as_independent(taupi)[0])
+        flux_vec_series[k][i][0] = simplify(expand(flux_vec_LO[k][i]).as_independent(tau_q)[0].as_independent(tau_Pi)[0].as_independent(tau_pi)[0])
     #print(IS_sys_series[i][0])
     for j in range(3):
     #    IS_sys_LO[i] = IS_sys_LO[i].subs(timescales[j],0)
@@ -169,6 +170,8 @@ for i in range(len(IS_sys)):
             flux_vec_series[k][i][j+1] = simplify(expand(flux_vec_LO[k][i]).as_independent(timescales[j+2])[1])
             if(flux_vec_series[k][i][j+1] == 1):
                 flux_vec_series[k][i][j+1] = 0
+
+print(flux_vec_series[0][0][:])
 
 # for i in range(5): # D, Sx, Sy, Sz, E
 #     for j in range(4): # tau^0, tau^q, tau^Pi, tau^pi
