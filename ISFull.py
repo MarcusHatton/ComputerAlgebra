@@ -7,6 +7,7 @@ Created on Thu Jul 15 01:09:42 2021
 
 from sympy import *
 import numpy as np
+#import pickle
 
 # Setup symbols
 kappa, tau_q, zeta, tau_Pi, eta, tau_pi = symbols('kappa tau_q zeta tau_Pi eta tau_pi', real=True, positive=True)
@@ -186,22 +187,47 @@ for i in range(len(IS_sys)):
 
 # Write the un-differentiated state and flux vectors to file
 outfile = open('ISFullOutput.txt','w')
+#pickle_out = open('ISFullPickleOutput.txt','w')
 
 outfile.write('State Vector (5x4): 5 components, 4 timescale separations \n')
 for i in range(5):
     for j in range(4):
         outfile.write(str(state_vec_series[i][j])+'\n')
+        #pickle.dump(state_vec_series[i][j],pickle_out)
         
 outfile.write('Flux Vector (3x5x4): 3 Directions, 5 components, 4 timescale separations \n')
 for i in range(3):
     for j in range(5):
         for k in range(4):
             outfile.write(str(flux_vec_series[i][j][k])+'\n')
+            #pickle.dump(flux_vec_series[i][j][k],pickle_out)
+
 
 outfile.write('First order CE corrections \n')
 for i in range(len(diss1sLO)):
     outfile.write(str(diss1sLO[i])+'\n')
+    #pickle_out.dump(diss1sLO[i],pickle_out)
 
 outfile.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
