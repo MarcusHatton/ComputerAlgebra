@@ -84,7 +84,7 @@ for i in range(13):
         LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', z)', \
                                       '((prims[ID(Prims::'+str(prim_var)+', i, j, k+1)] - prims[ID(Prims::'+str(prim_var)+', i, j, k-1)])/(d->dz))')
         LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t)', \
-                                      'tderivs[ID(TDerivs::'+str(prim_var)+', i, j, k)]')
+                                      'tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j, k)]')
 
 
     for diss_var in diss_vars:
@@ -96,7 +96,7 @@ for i in range(13):
         LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(diss_var)+components+', z)', \
                                       '((prims[ID(Prims::'+str(diss_var)+', i, j, k+1)] - prims[ID(Prims::'+str(diss_var)+', i, j, k-1)])/(d->dz))')
         LO_str[i] = LO_str[i].replace('Derivative(prims[ID(Prims::'+str(diss_var)+components+', t)', \
-                                      'tderivs[ID(TDerivs::'+str(diss_var)+', i, j, k)]')
+                                      'tderivs[ID(TDerivs::dt'+str(diss_var)+', i, j, k)]')
 
     for aux_var in aux_vars:
         LO_str[i] = LO_str[i].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
@@ -107,7 +107,7 @@ for i in range(13):
         LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', z)', \
                                       '((aux[ID(Aux::'+str(aux_var)+', i, j, k+1)] - aux[ID(Aux::'+str(aux_var)+', i, j, k-1)])/(d->dz))')
         LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t)', \
-                                      'tderivs[ID(TDerivs::'+str(aux_var)+', i, j, k)]')
+                                      'tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j, k)]')
     for dissNS in dissNSs:
         LO_str[i] = LO_str[i].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
         LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', x)', \
@@ -117,7 +117,7 @@ for i in range(13):
         LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', z)', \
                                       '((aux[ID(Aux::'+str(dissNS)+', i, j, k+1)] - aux[ID(Aux::'+str(dissNS)+', i, j, k-1)])/(d->dz))')
         LO_str[i] = LO_str[i].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', t)', \
-                                      'tderivs[ID(TDerivs::'+str(dissNS)+', i, j, k)]')
+                                      'tderivs[ID(TDerivs::dt'+str(dissNS)+', i, j, k)]')
 
 
 state_vec = ['D', 'Sx', 'Sy', 'Sz', 'E']
