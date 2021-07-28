@@ -66,6 +66,8 @@ pi11LO, pi12LO, pi13LO, pi21LO, pi22LO, pi23LO, pi31LO, pi32LO, pi33LO = \
     Function('pi31LO')(t, x, y, z), Function('pi32LO')(t, x, y, z), Function('pi33LO')(t, x, y, z)
 diss1s = [q1LO, q2LO, q3LO, PiLO, pi11LO, pi12LO, pi13LO, pi21LO, pi22LO, pi23LO, pi31LO, pi32LO, pi33LO]
 
+# For writing these out to be read in for Jacobian calcs in SeSo.py
+state_flux_outfile = open('state_flux.txt','w')
 # state vector
 D = n*W
 Sx = (rho + p + Pi)*W**2*v1 + (q1 + qv*v1)*W + pi01
@@ -73,6 +75,8 @@ Sy = (rho + p + Pi)*W**2*v2 + (q2 + qv*v2)*W + pi02
 Sz = (rho + p + Pi)*W**2*v3 + (q3 + qv*v3)*W + pi03
 E = (rho + p + Pi)*W**2 - (p + Pi) + 2*qv*W + pi00
 state_vec = [D, Sx, Sy, Sz, E]
+for i in range(len(state_vec)):
+    state_flux_outfile.write(str(state_vec[i])+'\n')
 
 # flux vector
 flux_vec = np.zeros((3,len(state_vec)),dtype=type(state_vec[0]))
@@ -85,7 +89,10 @@ for i in range(3):
     flux_vec[i][4] = (state_vec[4] + p)*vs[i] + W*(qs[i] - qv*vs[i]) 
     for j in range(len(state_vec)):
         flux_vec[i][j] = simplify(expand(flux_vec[i][j]))
+        state_flux_outfile.write(str(flux_vec[i][j])+'\n')
 
+state_flux_outfile.close()
+        
 # source vector
 # Navier-Stokes equ forms
 q1NS, q2NS, q3NS = Function('q1NS')(t, x, y, z), Function('q2NS')(t, x, y, z), Function('q3NS')(t, x, y, z)
