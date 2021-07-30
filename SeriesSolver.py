@@ -41,6 +41,15 @@ pi11, pi12, pi13, pi21, pi22, pi23, pi31, pi32, pi33 = \
     sp.Function('pi31')(t, x, y, z), sp.Function('pi32')(t, x, y, z), sp.Function('pi33')(t, x, y, z)
 diss_vars = [q1, q2, q3, Pi, pi11, pi12, pi13, pi21, pi22, pi23, pi31, pi32, pi33]
 
+# DissNSs - will need to swap Diss vars for these for Jacobian calcs
+q1NS, q2NS, q3NS = sp.Function('q1NS')(t, x, y, z), sp.Function('q2NS')(t, x, y, z), sp.Function('q3NS')(t, x, y, z)
+PiNS =  sp.Function('PiNS')(t, x, y, z)
+pi11NS, pi12NS, pi13NS, pi21NS, pi22NS, pi23NS, pi31NS, pi32NS, pi33NS = \
+    sp.Function('pi11NS')(t, x, y, z), sp.Function('pi12NS')(t, x, y, z), sp.Function('pi13NS')(t, x, y, z), \
+    sp.Function('pi21NS')(t, x, y, z), sp.Function('pi22NS')(t, x, y, z), sp.Function('pi23NS')(t, x, y, z), \
+    sp.Function('pi31NS')(t, x, y, z), sp.Function('pi32NS')(t, x, y, z), sp.Function('pi33NS')(t, x, y, z)
+dissNSs = [q1NS, q2NS, q3NS, PiNS, pi11NS, pi12NS, pi13NS, pi21NS, pi22NS, pi23NS, pi31NS, pi32NS, pi33NS]
+
 # Prims
 v1, v2, v3 = sp.Function('v1')(t, x, y, z), sp.Function('v2')(t, x, y, z), sp.Function('v3')(t, x, y, z)
 vs = [v1, v2, v3]
@@ -55,9 +64,7 @@ aux_vars = [T, W, qv, pi00, pi01, pi02, pi03]
 
 # Declare the vars that we need to calculate the Jacobian of the state vector wrt
 # (Essentially the variables that have time derivatives in the CE expansion)
-jac_vars = [n, W]
-for diss_var in diss_vars:
-    jac_vars.append(diss_var)
+jac_vars = prim_vars + aux_vars + diss_vars
 
 # Convert the state and flux vectors into Matrices so that the Jacobian
 # function can be used 
@@ -92,6 +99,8 @@ for i in range(len(jac_vars)):
 
 
 
+
+
 # Reads in the tau_X series expansion for the state & flux vectors, 
 # as well as the LO forms of the diss variables and does the temporal
 # and spatial derivatives on the stae & flux components, respectively
@@ -110,7 +119,7 @@ for i in range(5):
     for j in range(4):
         svs[i][j] = sp.sympify(infile.readline())
         #svs[i][j] = sp.simplify(sp.expand(svs[i][j].diff(t)))
-        svs[i][j] = svs[i][j].diff(t)
+        svs[i][j] = sp.simplify(sp.expand(svs[i][j].diff(t)))
     
 # Another line of flex before the flux vector        
 print(infile.readline())
@@ -128,3 +137,24 @@ for i in range(13):
     LO[i] = sp.sympify(infile.readline())
 
 infile.close()
+
+
+for i in range(5):
+    for j in range(1,4):
+        for k in range(len(jac_vars)):
+            if svs[i][j] == 0:
+                continue
+            #print(svs[i][j])
+            #print(jac_vars[k].diff(t))
+            svs[i][j] = svs[i][j].subs(jac_vars[k].diff(t),dt_jac_vars[k])
+
+"""
+Outstanding issue: For Jacobian solving, expressions for state and flux vectors
+are read in from state_flux.txt ... where its q1, q2, q3 etc. but then for the
+substitution into the time-derived and timescale-expanded forms (svs, fvs) its
+q1LO, q2LO etc. ... probably a string replacement is easiest
+"""
+
+
+
+
