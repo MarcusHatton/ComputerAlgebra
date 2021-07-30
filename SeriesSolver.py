@@ -7,11 +7,12 @@ Created on Tue Jul 27 17:17:47 2021
 """
 
 import sympy as sp
+import numpy as np
 
 sv = ["" for i in range(5)]
 fv = [["" for i in range(5)] for j in range(3)]
 
-# Read in original state and flux vector forms
+# Read in original state and flux vector forms (undifferentiated)
 sf_infile = open('state_flux.txt','r')
 for i in range(5):
     sv[i] = sp.sympify(sf_infile.readline())
@@ -23,6 +24,12 @@ sf_infile.close()
 # Setup indep vars
 t, x, y, z = sp.symbols('t x y z')
 X = [x, y, z]
+
+# Conserveds just for clarity
+D, S1, S2, S3, E = sp.Function('D')(t, x, y, z), sp.Function('S1')(t, x, y, z), \
+    sp.Function('S2')(t, x, y, z), sp.Function('S3')(t, x, y, z), sp.Function('E')(t, x, y, z)
+cons = [D, S1, S2, S3, E]
+
 # Dependent vars
 # Diss vars
 q1, q2, q3 = sp.Function('q1')(t, x, y, z), sp.Function('q2')(t, x, y, z), sp.Function('q3')(t, x, y, z)
@@ -46,21 +53,41 @@ qv, pi00, pi01, pi02, pi03 = sp.Function('qv')(t, x, y, z), sp.Function('pi00')(
     sp.Function('pi01')(t, x, y, z), sp.Function('pi02')(t, x, y, z), sp.Function('pi03')(t, x, y, z)
 aux_vars = [T, W, qv, pi00, pi01, pi02, pi03]
 
+# Declare the vars that we need to calculate the Jacobian of the state vector wrt
+# (Essentially the variables that have time derivatives in the CE expansion)
+jac_vars = [n, W]
+for diss_var in diss_vars:
+    jac_vars.append(diss_var)
+
 # Convert the state and flux vectors into Matrices so that the Jacobian
-# function can be used, with the primitive variables as the reference matrix
-prim_vars_Mat = sp.Matrix(prim_vars)
+# function can be used 
+jac_vars_Mat = sp.Matrix(jac_vars)
 
+# Convert state vector into sympy Matrix
 sv_Mat = sp.Matrix(sv)
-sv_Jac = sv_Mat.jacobian(prim_vars_Mat)
-
+# Calculate Jacobian of state vector wrt jac_vars
+sv_Jac = sv_Mat.jacobian(jac_vars_Mat)
+# Now do the same for each of the flux vector components (x, y, z) in turn
+# Not actually sure we need these yet...
 fvx_Mat = sp.Matrix(fv[0])
 fvy_Mat = sp.Matrix(fv[1])
 fvz_Mat = sp.Matrix(fv[2])
-fvx_Jac = fvx_Mat.jacobian(prim_vars_Mat)
-fvy_Jac = fvy_Mat.jacobian(prim_vars_Mat)
-fvz_Jac = fvz_Mat.jacobian(prim_vars_Mat)
+fvx_Jac = fvx_Mat.jacobian(jac_vars_Mat)
+fvy_Jac = fvy_Mat.jacobian(jac_vars_Mat)
+fvz_Jac = fvz_Mat.jacobian(jac_vars_Mat)
 
-
+# Form a list of the time derivatives of the required variables
+dt_jac_vars = np.zeros_like(jac_vars,dtype=type(jac_vars[0]))
+for i in range(len(jac_vars)):
+    #dt_jac_vars[i] = jac_vars[i].diff(t)
+    for j in range(len(cons)):
+        # If the derivative of the conserved wrt the jac_var (n, W, etc.)
+        # is zero then its reciprocal should be set to zero (not inf)
+        if sv_Jac[i+j*len(jac_vars)] == 0:
+            continue
+        # Little numbering hack picks out all the required partial derivs
+        # for each of the conserveds e.g. dn/dt = dD/dt*dn/dD + dS1/dt*dn/dS1 + ...
+        dt_jac_vars[i] += cons[j].diff(t)*(1/sv_Jac[i+j*len(jac_vars)])
 
 
 
