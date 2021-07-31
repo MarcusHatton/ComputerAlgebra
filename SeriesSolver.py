@@ -93,7 +93,7 @@ for i in range(len(jac_vars)):
         if sv_Jac[i+j*len(jac_vars)] == 0:
             continue
         # Little numbering hack picks out all the required partial derivs
-        # for each of the conserveds e.g. dn/dt = dD/dt*dn/dD + dS1/dt*dn/dS1 + ...
+        # for each of the conserveds e.g. dn/dt = dD/dt*(dD/dn)^-1 + dS1/dt*dn/dS1 + ... + dTau/dt*dn/dTau
         dt_jac_vars[i] += cons[j].diff(t)*(1/sv_Jac[i+j*len(jac_vars)])
 
 
@@ -117,7 +117,7 @@ print(infile.readline())
 # Read in state vector components
 for i in range(5):
     for j in range(4):
-        svs[i][j] = sp.sympify(infile.readline())
+        svs[i][j] = sp.sympify(infile.readline().replace('LO',''))
         #svs[i][j] = sp.simplify(sp.expand(svs[i][j].diff(t)))
         svs[i][j] = sp.simplify(sp.expand(svs[i][j].diff(t)))
     
