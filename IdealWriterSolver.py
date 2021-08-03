@@ -93,6 +93,7 @@ state_flux_outfile.close()
 # Declare the vars that we need to calculate the Jacobian of the state vector wrt
 # (Essentially the variables that have time derivatives in the CE expansion)
 jac_vars = [p, n, v1, v2, v3]
+#jac_vars = [W, v1, v2, v3]
 
 # Convert the state and flux vectors into Matrices so that the Jacobian
 # function can be used 
@@ -101,7 +102,8 @@ jac_vars_Mat = sp.Matrix(jac_vars)
 # Convert state vector into sympy Matrix
 sv_Mat = sp.Matrix(sv)
 # Calculate Jacobian of state vector wrt jac_vars
-sv_Jac = sv_Mat.jacobian(jac_vars_Mat).inv()
+sv_Jac = sv_Mat.jacobian(jac_vars_Mat)
+sv_Jac_inv = sv_Jac.inv()
 # Now do the same for each of the flux vector components (x, y, z) in turn
 # Not actually sure we need these yet...
 fvx_Mat = sp.Matrix(fv[0])
@@ -110,8 +112,6 @@ fvz_Mat = sp.Matrix(fv[2])
 fvx_Jac = fvx_Mat.jacobian(jac_vars_Mat)
 fvy_Jac = fvy_Mat.jacobian(jac_vars_Mat)
 fvz_Jac = fvz_Mat.jacobian(jac_vars_Mat)
-
-TURN INTO A MATRIX CALC NOT SUM!
 
 # Form a list of the time derivatives of the required variables
 dt_jac_vars = np.zeros_like(jac_vars,dtype=type(jac_vars[0]))
@@ -124,24 +124,36 @@ for i in range(len(jac_vars)):
         #    continue
         # Little numbering hack picks out all the required partial derivs
         # for each of the conserveds e.g. dn/dt = dD/dt*(dD/dn)^-1 + dS1/dt*dn/dS1 + ... + dTau/dt*dn/dTau
-        dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac[i+j*len(jac_vars)])
+        dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_inv[i+j*len(jac_vars)])
+
+
+# May choose not to define explicitly for readability
+#vsqrd = v1**2 + v2**2 + v3**2
+#W = 1/sqrt(1-vsqrd)
+qvNS = q1NS*v1 + q2NA*v2 + q3NA*v3
+qsNS = [q1NS, q2NS, q3NS]
+pi00NA = pi11NS + pi22NS + pi33NS
+pi01 = v1*pi11NS + v2*pi12NS + v3*pi13NS
+pi02 = v1*pi21NS + v2*pi22NS + v3*pi23NS
+pi03 = v1*pi31NS + v2*pi32NS + v3*pi33NS
 
 # Define NS vector forms (H & F)
+# NOTE ALL TERMS SHOULD BE NS
 svNS = np.zeros_like(sv,dtype=type(sv[0]))
 svNS[0] = 0
-svNS[1] = Pi*W**2*v1 + (q1 + qv*v1)*W + pi01
-svNS[2] = Pi*W**2*v2 + (q2 + qv*v2)*W + pi02
-svNS[3] = Pi*W**2*v3 + (q3 + qv*v3)*W + pi03
-svNS[4] = Pi*(W**2 - 1) + 2*qv*W + pi00
+svNS[1] = PiNS*W**2*v1 + (q1NS + qvNS*v1)*W + pi01NS
+svNS[2] = PiNS*W**2*v2 + (q2NS + qvNS*v2)*W + pi02NS
+svNS[3] = PiNS*W**2*v3 + (q3NS + qvNS*v3)*W + pi03NS
+svNS[4] = PiNS*(W**2 - 1) + 2*qvNS*W + pi00NS
 
 fvNS = np.zeros_like(fv,dtype=type(sv[0]))
 for i in range(3):
     fvNS[i][0] = svNS[0]*vs[i]
-    fvNS[i][1] = svNS[1]*vs[i] + W*(qs[i]*v1 - qv*vs[i]*v1) 
-    fvNS[i][2] = svNS[2]*vs[i] + W*(qs[i]*v2 - qv*vs[i]*v2) 
-    fvNS[i][3] = svNS[3]*vs[i] + W*(qs[i]*v3 - qv*vs[i]*v3) 
-    fvNS[i][i+1] += Pi
-    fvNS[i][4] = svNS[4]*vs[i] + W*(qs[i] - qv*vs[i]) 
+    fvNS[i][1] = svNS[1]*vs[i] + W*(qsNS[i]*v1 - qvNS*vs[i]*v1) 
+    fvNS[i][2] = svNS[2]*vs[i] + W*(qsNS[i]*v2 - qvNS*vs[i]*v2) 
+    fvNS[i][3] = svNS[3]*vs[i] + W*(qsNS[i]*v3 - qvNS*vs[i]*v3) 
+    fvNS[i][i+1] += PiNS
+    fvNS[i][4] = svNS[4]*vs[i] + W*(qsNS[i] - qvNS*vs[i]) 
     for j in range(len(sv)):
         fvNS[i][j] = sp.simplify(sp.expand(fv[i][j]))
 
