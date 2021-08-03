@@ -92,7 +92,7 @@ state_flux_outfile.close()
 
 # Declare the vars that we need to calculate the Jacobian of the state vector wrt
 # (Essentially the variables that have time derivatives in the CE expansion)
-jac_vars = [p, n, v1, v2, v3]
+jac_vars = [rho, n, v1, v2, v3]
 #jac_vars = [W, v1, v2, v3]
 
 # Convert the state and flux vectors into Matrices so that the Jacobian
@@ -126,16 +126,27 @@ for i in range(len(jac_vars)):
         # for each of the conserveds e.g. dn/dt = dD/dt*(dD/dn)^-1 + dS1/dt*dn/dS1 + ... + dTau/dt*dn/dTau
         dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_inv[i+j*len(jac_vars)])
 
+# Write individual time differentials out so they can be pasted for use in
+# the NS expression in the flux term in the model correction...
+dts_out = open('dts.txt','w')
+for i in range(len(jac_vars)):
+    dts_out.write(str(jac_vars[i].diff(t))+' = '+str(dt_jac_vars[i])+'\n')
+dts_out.close()
+
+
+
 
 # May choose not to define explicitly for readability
 #vsqrd = v1**2 + v2**2 + v3**2
 #W = 1/sqrt(1-vsqrd)
-qvNS = q1NS*v1 + q2NA*v2 + q3NA*v3
+qvNS = q1NS*v1 + q2NS*v2 + q3NS*v3
 qsNS = [q1NS, q2NS, q3NS]
-pi00NA = pi11NS + pi22NS + pi33NS
-pi01 = v1*pi11NS + v2*pi12NS + v3*pi13NS
-pi02 = v1*pi21NS + v2*pi22NS + v3*pi23NS
-pi03 = v1*pi31NS + v2*pi32NS + v3*pi33NS
+pi00NS = pi11NS + pi22NS + pi33NS
+pi01NS = v1*pi11NS + v2*pi12NS + v3*pi13NS
+pi02NS = v1*pi21NS + v2*pi22NS + v3*pi23NS
+pi03NS = v1*pi31NS + v2*pi32NS + v3*pi33NS
+
+svNS_out = open('state_flux_NS.txt','w')
 
 # Define NS vector forms (H & F)
 # NOTE ALL TERMS SHOULD BE NS
@@ -145,6 +156,8 @@ svNS[1] = PiNS*W**2*v1 + (q1NS + qvNS*v1)*W + pi01NS
 svNS[2] = PiNS*W**2*v2 + (q2NS + qvNS*v2)*W + pi02NS
 svNS[3] = PiNS*W**2*v3 + (q3NS + qvNS*v3)*W + pi03NS
 svNS[4] = PiNS*(W**2 - 1) + 2*qvNS*W + pi00NS
+for i in range(len(svNS)):
+    svNS_out.write(str(svNS[i])+'\n')
 
 fvNS = np.zeros_like(fv,dtype=type(sv[0]))
 for i in range(3):
@@ -154,11 +167,11 @@ for i in range(3):
     fvNS[i][3] = svNS[3]*vs[i] + W*(qsNS[i]*v3 - qvNS*vs[i]*v3) 
     fvNS[i][i+1] += PiNS
     fvNS[i][4] = svNS[4]*vs[i] + W*(qsNS[i] - qvNS*vs[i]) 
-    for j in range(len(sv)):
-        fvNS[i][j] = sp.simplify(sp.expand(fv[i][j]))
+    for j in range(len(svNS)):
+        fvNS[i][j] = sp.simplify(sp.expand(fvNS[i][j]))
+        svNS_out.write(str(fvNS[i][j])+'\n')
 
-
-
+svNS_out.close()
 
 
 
