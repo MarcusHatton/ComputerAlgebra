@@ -58,10 +58,12 @@ p, n, rho  = sp.Function('p')(t, x, y, z), sp.Function('n')(t, x, y, z),sp.Funct
 prim_vars = [v1, v2, v3, p, n, rho]
                   
 # Aux
-T, W = sp.Function('T')(t, x, y, z), sp.Function('W')(t, x, y, z)
+T, W, Theta = sp.Function('T')(t, x, y, z), sp.Function('W')(t, x, y, z), sp.Function('Theta')(t, x, y, z)
 qv, pi00, pi01, pi02, pi03 = sp.Function('qv')(t, x, y, z), sp.Function('pi00')(t, x, y, z), \
     sp.Function('pi01')(t, x, y, z), sp.Function('pi02')(t, x, y, z), sp.Function('pi03')(t, x, y, z)
 aux_vars = [T, W, qv, pi00, pi01, pi02, pi03]
+
+""" WRITE THE IDEAL PARTS OF THE STATE & FLUX VECTORS TO FILE """
 
 # For writing these out to be read in for Jacobian calcs in SeSo.py
 state_flux_outfile = open('state_flux_ideal.txt','w')
@@ -90,51 +92,7 @@ for i in range(3):
 
 state_flux_outfile.close()
 
-# Declare the vars that we need to calculate the Jacobian of the state vector wrt
-# (Essentially the variables that have time derivatives in the CE expansion)
-jac_vars = [rho, n, v1, v2, v3]
-#jac_vars = [W, v1, v2, v3]
-
-# Convert the state and flux vectors into Matrices so that the Jacobian
-# function can be used 
-jac_vars_Mat = sp.Matrix(jac_vars)
-
-# Convert state vector into sympy Matrix
-sv_Mat = sp.Matrix(sv)
-# Calculate Jacobian of state vector wrt jac_vars
-sv_Jac = sv_Mat.jacobian(jac_vars_Mat)
-sv_Jac_inv = sv_Jac.inv()
-# Now do the same for each of the flux vector components (x, y, z) in turn
-# Not actually sure we need these yet...
-fvx_Mat = sp.Matrix(fv[0])
-fvy_Mat = sp.Matrix(fv[1])
-fvz_Mat = sp.Matrix(fv[2])
-fvx_Jac = fvx_Mat.jacobian(jac_vars_Mat)
-fvy_Jac = fvy_Mat.jacobian(jac_vars_Mat)
-fvz_Jac = fvz_Mat.jacobian(jac_vars_Mat)
-
-# Form a list of the time derivatives of the required variables
-dt_jac_vars = np.zeros_like(jac_vars,dtype=type(jac_vars[0]))
-for i in range(len(jac_vars)):
-    #dt_jac_vars[i] = jac_vars[i].diff(t)
-    for j in range(len(cons)):
-        # If the derivative of the conserved wrt the jac_var (n, W, etc.)
-        # is zero then its reciprocal should be set to zero (not inf)
-        #if sv_Jac[i+j*len(jac_vars)] == 0:
-        #    continue
-        # Little numbering hack picks out all the required partial derivs
-        # for each of the conserveds e.g. dn/dt = dD/dt*(dD/dn)^-1 + dS1/dt*dn/dS1 + ... + dTau/dt*dn/dTau
-        dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_inv[i+j*len(jac_vars)])
-
-# Write individual time differentials out so they can be pasted for use in
-# the NS expression in the flux term in the model correction...
-dts_out = open('dts.txt','w')
-for i in range(len(jac_vars)):
-    dts_out.write(str(jac_vars[i].diff(t))+' = '+str(dt_jac_vars[i])+'\n')
-dts_out.close()
-
-
-
+""" WRITE THE NS PARTS OF THE STATE & FLUX VECTORS TO FILE """
 
 # May choose not to define explicitly for readability
 #vsqrd = v1**2 + v2**2 + v3**2
@@ -173,15 +131,90 @@ for i in range(3):
 
 svNS_out.close()
 
+# Define NS forms
 
+q1NS = -kappa * ( (1+W**2*v1**2)*T.diff(x) + W**2*v1*v2*T.diff(y) + W**2*v1*v3*T.diff(z) )
+q1NS = -kappa * ( (1+W**2*v2**2)*T.diff(y) + W**2*v1*v2*T.diff(x) + W**2*v2*v3*T.diff(z) )
+q1NS = -kappa * ( (1+W**2*v3**2)*T.diff(z) + W**2*v1*v3*T.diff(x) + W**2*v2*v3*T.diff(y) )
 
+Theta = W.diff(t) + (W*v1).diff(x) + (W*v2).diff(y) + (W*v3).diff(z)
+PiNS = -zeta * ( Theta )
 
+pi11NS = -2*eta*( 2*(W*v1).diff(x) - (2/3)*(1 + (W*v1)**2)*Theta )
+pi12NS = -2*eta*( (W*v2).diff(x) + (W*v1).diff(y) - (2/3)*(W*v1*W*v2)*Theta )
+pi13NS = -2*eta*( (W*v3).diff(x) + (W*v1).diff(z) - (2/3)*(W*v1*W*v3)*Theta )
+pi22NS = -2*eta*( 2*(W*v2).diff(y) - (2/3)*(1 + (W*v2)**2)*Theta )
+pi23NS = -2*eta*( (W*v3).diff(y) + (W*v2).diff(z) - (2/3)*(W*v2*W*v3)*Theta )
+pi33NS = -2*eta*( 2*(W*v3).diff(x) - (2/3)*(1 + (W*v3)**2)*Theta )
+pi21NS = pi12NS
+pi31NS = pi13NS
+pi32NS = pi23NS
 
+# Subsitute it all into the time-differentiated expressions
 
+dtsvNS = np.zeros_like(sv,dtype=type(sv[0]))
+dtsvNS[0] = 0
+dtsvNS[1] = (PiNS*W**2*v1 + (q1NS + qvNS*v1)*W + pi01NS).diff(t)
+dtsvNS[2] = (PiNS*W**2*v2 + (q2NS + qvNS*v2)*W + pi02NS).diff(t)
+dtsvNS[3] = (PiNS*W**2*v3 + (q3NS + qvNS*v3)*W + pi03NS).diff(t)
+dtsvNS[4] = (PiNS*(W**2 - 1) + 2*qvNS*W + pi00NS).diff(t)
 
+""" CALCULATE THE TIME DERIVATIVE OF THE NS STATE VECTOR """
 
+dtsvNS_out = open('state_NS_dt.txt','w')
 
+for i in range(len(svNS)):
+    #dtsvNS_out.write(str(sp.simplify(sp.expand(svNS[i].diff(t))))+'\n')
+    dtsvNS_out.write(str(dtsvNS[i])+'\n')
 
+dtsvNS_out.close()
 
+# Declare the vars that we need to calculate the Jacobian of the state vector wrt
+# (Essentially the variables that have time derivatives in the CE expansion)
+jac_vars = [p, n, v1, v2, v3]
+#jac_vars = [W, v1, v2, v3]
+
+# Convert the state and flux vectors into Matrices so that the Jacobian
+# function can be used 
+jac_vars_Mat = sp.Matrix(jac_vars)
+
+# Convert state vector into sympy Matrix
+sv_Mat = sp.Matrix(sv)
+# Calculate Jacobian of state vector wrt jac_vars
+sv_Jac = sv_Mat.jacobian(jac_vars_Mat)
+sv_Jac_inv = sv_Jac.inv()
+sv_Jac_psrinv = sv_Jac.transpose()*(sv_Jac*sv_Jac.transpose()).inv()
+
+# Form a list of the time derivatives of the required variables
+dt_jac_vars = np.zeros_like(jac_vars,dtype=type(jac_vars[0]))
+for i in range(len(jac_vars)):
+    #dt_jac_vars[i] = jac_vars[i].diff(t)
+    for j in range(len(cons)):
+        # If the derivative of the conserved wrt the jac_var (n, W, etc.)
+        # is zero then its reciprocal should be set to zero (not inf)
+        #if sv_Jac[i+j*len(jac_vars)] == 0:
+        #    continue
+        # Little numbering hack picks out all the required partial derivs
+        # for each of the conserveds e.g. dn/dt = dD/dt*(dD/dn)^-1 + dS1/dt*dn/dS1 + ... + dTau/dt*dn/dTau
+        dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_psrinv[i*len(jac_vars)+j])
+
+# Write individual time differentials out so they can be pasted for use in
+# the NS expression in the flux term in the model correction...
+dts_out = open('dts.txt','w')
+for i in range(len(jac_vars)):
+    dts_out.write(str(jac_vars[i].diff(t))+' = '+str(dt_jac_vars[i])+'\n')
+dts_out.close()
+
+dtsvNS_out = open('state_NS_dt.txt','a')
+dtsvNS_out.write('\n'+'SUBSTITUTED EXPRESSION BEGINS'+'\n')
+# Now make all the necessary substitutions into the time-diff'd state vector
+for i in range(len(dtsvNS)):
+    for j in range(len(jac_vars)):
+        if dtsvNS[i] == 0:
+            continue
+        dtsvNS[i] = dtsvNS[i].subs(jac_vars[j].diff(t),dt_jac_vars[j])
+    dtsvNS_out.write(str(dtsvNS[i])+'\n')
+        
+dtsvNS_out.close()
 
 
