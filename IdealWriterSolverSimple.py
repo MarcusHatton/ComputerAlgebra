@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug  2 16:15:27 2021
+Created on Tue Aug 10 01:11:51 2021
 
-@author: mjh1n20
+@author: marcu
 """
 
 import sympy as sp
@@ -69,11 +68,11 @@ aux_vars = [T, W, qv, pi00, pi01, pi02, pi03]
 # For writing these out to be read in for Jacobian calcs in SeSo.py
 state_flux_outfile = open('state_flux_ideal.txt','w')
 # state vector
-D = n*W
-S1 = (rho + p)*W**2*v1
-S2 = (rho + p)*W**2*v2
-S3 = (rho + p)*W**2*v3
-E = (rho + p)*W**2 - p
+D = n
+S1 = (rho + p)*v1
+S2 = (rho + p)*v2
+S3 = (rho + p)*v3
+E = rho
 sv = [D, S1, S2, S3, E]
 for i in range(len(sv)):
     state_flux_outfile.write(str(sv[i])+'\n')
@@ -111,10 +110,10 @@ svNS_out = open('state_flux_NS.txt','w')
 # NOTE ALL TERMS SHOULD BE NS
 svNS = np.zeros_like(sv,dtype=type(sv[0]))
 svNS[0] = 0
-svNS[1] = PiNS*W**2*v1 + (q1NS + qvNS*v1)*W + pi01NS
-svNS[2] = PiNS*W**2*v2 + (q2NS + qvNS*v2)*W + pi02NS
-svNS[3] = PiNS*W**2*v3 + (q3NS + qvNS*v3)*W + pi03NS
-svNS[4] = PiNS*(W**2 - 1) + 2*qvNS*W + pi00NS
+svNS[1] = PiNS*v1 + q1NS + pi01NS
+svNS[2] = PiNS*v2 + q2NS + pi02NS
+svNS[3] = PiNS*v3 + q3NS + pi03NS
+svNS[4] = 2*qvNS + pi00NS
 for i in range(len(svNS)):
     if svNS[i] == 0:
         svNS_out.write(str(0)+'\n')
@@ -138,19 +137,19 @@ svNS_out.close()
 C = sp.symbols('C')
 
 # Define NS forms
-q1NS = -kappa * ( (1+W**2*v1**2)*T.diff(x) + W**2*v1*v2*T.diff(y) + W**2*v1*v3*T.diff(z) )
-q2NS = -kappa * ( (1+W**2*v2**2)*T.diff(y) + W**2*v1*v2*T.diff(x) + W**2*v2*v3*T.diff(z) )
-q3NS = -kappa * ( (1+W**2*v3**2)*T.diff(z) + W**2*v1*v3*T.diff(x) + W**2*v2*v3*T.diff(y) )
+q1NS = -kappa * T.diff(x) 
+q2NS = -kappa * T.diff(y) 
+q3NS = -kappa * T.diff(z)
 
-Theta = W.diff(t) + (W*v1).diff(x) + (W*v2).diff(y) + (W*v3).diff(z)
+Theta = v1.diff(x) + v2.diff(y) + v3.diff(z)
 PiNS = -zeta * ( Theta )
 
-pi11NS = -2*eta*( 2*(W*v1).diff(x) - C*(1 + (W*v1)**2)*Theta )
-pi12NS = -2*eta*( (W*v2).diff(x) + (W*v1).diff(y) - C*(W*v1*W*v2)*Theta )
-pi13NS = -2*eta*( (W*v3).diff(x) + (W*v1).diff(z) - C*(W*v1*W*v3)*Theta )
-pi22NS = -2*eta*( 2*(W*v2).diff(y) - C*(1 + (W*v2)**2)*Theta )
-pi23NS = -2*eta*( (W*v3).diff(y) + (W*v2).diff(z) - C*(W*v2*W*v3)*Theta )
-pi33NS = -2*eta*( 2*(W*v3).diff(x) - C*(1 + (W*v3)**2)*Theta )
+pi11NS = -2*eta*( 2*(v1).diff(x) - C*Theta )
+pi12NS = -2*eta*( (v2).diff(x) + (v1).diff(y) )
+pi13NS = -2*eta*( (v3).diff(x) + (v1).diff(z) )
+pi22NS = -2*eta*( 2*(v2).diff(y) - C*Theta )
+pi23NS = -2*eta*( (v3).diff(y) + (v2).diff(z) )
+pi33NS = -2*eta*( 2*(v3).diff(x) - C*Theta )
 pi21NS = pi12NS
 pi31NS = pi13NS
 pi32NS = pi23NS
@@ -160,10 +159,10 @@ pi32NS = pi23NS
 
 dtsvNS = np.zeros_like(sv,dtype=type(sv[0]))
 dtsvNS[0] = 0
-dtsvNS[1] = (PiNS*W**2*v1 + (q1NS + qvNS*v1)*W + pi01NS).diff(t)
-dtsvNS[2] = (PiNS*W**2*v2 + (q2NS + qvNS*v2)*W + pi02NS).diff(t)
-dtsvNS[3] = (PiNS*W**2*v3 + (q3NS + qvNS*v3)*W + pi03NS).diff(t)
-dtsvNS[4] = (PiNS*(W**2 - 1) + 2*qvNS*W + pi00NS).diff(t)
+dtsvNS[1] = (PiNS*v1 + q1NS + pi01NS).diff(t)
+dtsvNS[2] = (PiNS*v2 + q2NS + pi02NS).diff(t)
+dtsvNS[3] = (PiNS*v3 + q3NS + pi03NS).diff(t)
+dtsvNS[4] = (2*qvNS + pi00NS).diff(t)
 
 dtsvNS_out = open('state_NS_dt.txt','w')
 
@@ -187,7 +186,7 @@ dtsvNS_out.close()
 
 # Declare the vars that we need to calculate the Jacobian of the state vector wrt
 # (Essentially the variables that have time derivatives in the CE expansion)
-jac_vars = [p, n, v1, v2, v3]
+jac_vars = [rho, n, v1, v2, v3]
 #jac_vars = [W, v1, v2, v3]
 
 # Convert the state and flux vectors into Matrices so that the Jacobian
@@ -215,7 +214,7 @@ for i in range(len(jac_vars)):
         #dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_inv[i*len(jac_vars)+j])
         dt_jac_vars[i] += cons[j].diff(t)*(1/sv_Jac[i+j*len(jac_vars)])
 
-#dt_jac_vars = sv_Jac_inv*sp.Matrix(dtcons)
+dt_jac_vars = sv_Jac_inv*sp.Matrix(dtcons)
 
 # Write individual time differentials out so they can be pasted for use in
 # the NS expression in the flux term in the model correction...

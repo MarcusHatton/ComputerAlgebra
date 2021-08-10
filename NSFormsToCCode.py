@@ -11,7 +11,9 @@ import numpy as np
 # Read in the algebra in sympy form from file
 svs_str = ["" for j in range(5)]
 fvs_str = [["" for j in range(5)] for k in range(3)]
+
 infile = open('state_flux_NS.txt','r')
+#infile = open('state_NS_dt.txt','r')
 
 # Read in state vector components
 for i in range(5):
@@ -37,7 +39,11 @@ for i in range(3):
         #print(svs_str[i])
         for prim_var in prim_vars:
             svs_str[j] = svs_str[j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
+            svs_str[j] = svs_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t)', \
+                                      'tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j, k)]')
             fvs_str[i][j] = fvs_str[i][j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
+            NS_str = ["" for j in range(13)]
+
             
         for diss_var in diss_vars:
             svs_str[j] = svs_str[j].replace(str(diss_var)+func_of,'prims[ID(Prims::'+str(diss_var)+components)
@@ -45,10 +51,14 @@ for i in range(3):
 
         for aux_var in aux_vars:
             svs_str[j] = svs_str[j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
+            svs_str[j] = svs_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t)', \
+                                      'tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j, k)]')
             fvs_str[i][j] = fvs_str[i][j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
 
         for dissNS in dissNSs:
             svs_str[j] = svs_str[j].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
+            svs_str[j] = svs_str[j].replace('Derivative(aux[ID(Aux::'+str(dissNS)+components+', t)', \
+                                      'tderivs[ID(TDerivs::dt'+str(dissNS)+', i, j, k)]')
             fvs_str[i][j] = fvs_str[i][j].replace(str(dissNS)+func_of,'aux[ID(Aux::'+str(dissNS)+components)
 
         for diss1 in diss1s:
