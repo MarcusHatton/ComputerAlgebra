@@ -134,7 +134,7 @@ for i in range(3):
 
 svNS_out.close()
 
-C = sp.symbols('C')
+C = sp.symbols('C') # 2/3.. to save 0.6666667 in outputs...
 
 # Define NS forms
 q1NS = -kappa * T.diff(x) 
@@ -211,8 +211,8 @@ for i in range(len(jac_vars)):
             continue
         # Little numbering hack picks out all the required partial derivs
         # for each of the conserveds e.g. dn/dt = dD/dt*(dD/dn)^-1 + dS1/dt*dn/dS1 + ... + dTau/dt*dn/dTau
-        #dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_inv[i*len(jac_vars)+j])
-        dt_jac_vars[i] += cons[j].diff(t)*(1/sv_Jac[i+j*len(jac_vars)])
+        dt_jac_vars[i] += cons[j].diff(t)*(sv_Jac_inv[i*len(jac_vars)+j])
+        #dt_jac_vars[i] += cons[j].diff(t)*(1/sv_Jac[i+j*len(jac_vars)])
 
 dt_jac_vars = sv_Jac_inv*sp.Matrix(dtcons)
 
