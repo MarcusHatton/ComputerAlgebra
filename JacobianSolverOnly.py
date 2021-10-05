@@ -13,12 +13,14 @@ t, x, y, z = sp.symbols('t x y z')
 D, S1, S2, S3, E = sp.Function('D')(t, x, y, z), sp.Function('S1')(t, x, y, z), \
     sp.Function('S2')(t, x, y, z), sp.Function('S3')(t, x, y, z), sp.Function('E')(t, x, y, z)
 cons = [D, S1, S2, S3, E]
-
+dtcons = [D.diff(t), S1.diff(t), S2.diff(t), S3.diff(t), E.diff(t)]
 # Prims
 v1, v2, v3 = sp.Function('v1')(t, x, y, z), sp.Function('v2')(t, x, y, z), sp.Function('v3')(t, x, y, z)
 vs = [v1, v2, v3]
-p, rho  = sp.Function('p')(t, x, y, z), sp.Function('rho')(t, x, y, z)
-n = sp.Function('n')(t, x, y, z, p, rho)
+n = sp.Function('n')(t, x, y, z)
+rho = sp.Function('rho')(t, x, y, z)
+#p = sp.Function('p')(t, x, y, z)
+p = sp.Function('p')(rho, n)
 prim_vars = [v1, v2, v3, p, n, rho]
 
 # state vector
@@ -31,7 +33,7 @@ sv = [D, S1, S2, S3, E]
 
 # Declare the vars that we need to calculate the Jacobian of the state vector wrt
 # (Essentially the variables that have time derivatives in the CE expansion)
-jac_vars = [rho, p, v1, v2, v3]
+jac_vars = [n, rho, v1, v2, v3]
 #jac_vars = [W, v1, v2, v3]
 
 # Convert the state and flux vectors into Matrices so that the Jacobian
@@ -44,4 +46,7 @@ sv_Mat = sp.Matrix(sv)
 sv_Jac = sv_Mat.jacobian(jac_vars_Mat)
 sv_Jac_inv = sv_Jac.inv()
 
-print((sv_Jac_inv*sp.Matrix(cons))[2])
+for i in range(len(jac_vars)):
+    print(str(jac_vars[i].diff(t))+': \n')
+    print((sv_Jac_inv*sp.Matrix(dtcons))[i])
+    print('\n')

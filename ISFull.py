@@ -56,6 +56,7 @@ pi00 = pi11 + pi22 + pi33
 pi01 = v1*pi11 + v2*pi12 + v3*pi13
 pi02 = v1*pi21 + v2*pi22 + v3*pi23
 pi03 = v1*pi31 + v2*pi32 + v3*pi33
+pi0is = [pi01,pi02,pi03]
 
 # CE LO Corrections
 q1LO, q2LO, q3LO = Function('q1LO')(t, x, y, z), Function('q2LO')(t, x, y, z), Function('q3LO')(t, x, y, z)
@@ -85,8 +86,8 @@ for i in range(3):
     flux_vec[i][1] = state_vec[1]*vs[i] + W*(qs[i]*v1 - qv*vs[i]*v1) 
     flux_vec[i][2] = state_vec[2]*vs[i] + W*(qs[i]*v2 - qv*vs[i]*v2) 
     flux_vec[i][3] = state_vec[3]*vs[i] + W*(qs[i]*v3 - qv*vs[i]*v3) 
-    flux_vec[i][i+1] += (p + Pi)
-    flux_vec[i][4] = (state_vec[4] + p)*vs[i] + W*(qs[i] - qv*vs[i]) 
+    flux_vec[i][i+1] += (p + Pi) + diss_vars[4+i*3] + diss_vars[4+i*3+1] + diss_vars[4+i*3+2]
+    flux_vec[i][4] = (state_vec[4] + p)*vs[i] + W*(qs[i] - qv*vs[i]) + pi0is[i]
     for j in range(len(state_vec)):
         flux_vec[i][j] = simplify(expand(flux_vec[i][j]))
         state_flux_outfile.write(str(flux_vec[i][j])+'\n')

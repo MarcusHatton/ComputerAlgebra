@@ -103,6 +103,7 @@ pi00NS = pi11NS + pi22NS + pi33NS
 pi01NS = v1*pi11NS + v2*pi12NS + v3*pi13NS
 pi02NS = v1*pi12NS + v2*pi22NS + v3*pi23NS
 pi03NS = v1*pi13NS + v2*pi23NS + v3*pi33NS
+pi0iNSs = [pi01NS,pi02NS,pi03NS]
 
 svNS_out = open('state_flux_NS.txt','w')
 
@@ -126,8 +127,8 @@ for i in range(3):
     fvNS[i][1] = svNS[1]*vs[i] + W*(qsNS[i]*v1 - qvNS*vs[i]*v1) 
     fvNS[i][2] = svNS[2]*vs[i] + W*(qsNS[i]*v2 - qvNS*vs[i]*v2) 
     fvNS[i][3] = svNS[3]*vs[i] + W*(qsNS[i]*v3 - qvNS*vs[i]*v3) 
-    fvNS[i][i+1] += PiNS
-    fvNS[i][4] = svNS[4]*vs[i] + W*(qsNS[i] - qvNS*vs[i]) 
+    fvNS[i][i+1] += PiNS + dissNSs[4+i*3] + dissNSs[4+i*3+1] + dissNSs[4+i*3+2]
+    fvNS[i][4] = svNS[4]*vs[i] + W*(qsNS[i] - qvNS*vs[i]) + pi0iNSs[i]
     for j in range(len(svNS)):
         fvNS[i][j] = sp.simplify(sp.expand(fvNS[i][j]))
         svNS_out.write(str(fvNS[i][j])+'\n')
