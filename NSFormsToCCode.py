@@ -73,9 +73,9 @@ outfile.write('STATE VECTOR STARTS\n')
 for i in range(5):
     #outfile.write('\n'+state_vec[i]+'\n')
     outfile.write(svs_str[i].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
-                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
-                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
-                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])')\
+                      .replace('prims[ID(Prims::v1, i, j, k)]**2','sqr(prims[ID(Prims::v1, i, j, k)])')\
+                      .replace('prims[ID(Prims::v2, i, j, k)]**2','sqr(prims[ID(Prims::v2, i, j, k)])')\
+                      .replace('prims[ID(Prims::v3, i, j, k)]**2','sqr(prims[ID(Prims::v3, i, j, k)])')\
                       .replace('21','12').replace('31','13').replace('32','23'))
             
 
@@ -86,9 +86,9 @@ for i in range(3):
     for j in range(5):
         #outfile.write(state_vec[j]+'\n')
         outfile.write(fvs_str[i][j].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
-                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
-                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
-                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])')\
+                      .replace('prims[ID(Prims::v1, i, j, k)]**2','sqr(prims[ID(Prims::v1, i, j, k)])')\
+                      .replace('prims[ID(Prims::v2, i, j, k)]**2','sqr(prims[ID(Prims::v2, i, j, k)])')\
+                      .replace('prims[ID(Prims::v3, i, j, k)]**2','sqr(prims[ID(Prims::v3, i, j, k)])')\
                       .replace('21','12').replace('31','13').replace('32','23'))
     outfile.write('\n')
 
