@@ -128,7 +128,10 @@ for i in range(3):
     fvNS[i][1] = svNS[1]*vs[i] + W*(qsNS[i]*v1 - qvNS*vs[i]*v1)
     fvNS[i][2] = svNS[2]*vs[i] + W*(qsNS[i]*v2 - qvNS*vs[i]*v2) 
     fvNS[i][3] = svNS[3]*vs[i] + W*(qsNS[i]*v3 - qvNS*vs[i]*v3) 
-    fvNS[i][i+1] += PiNS + dissNSs[4+i*3] + dissNSs[4+i*3+1] + dissNSs[4+i*3+2]
+    fvNS[i][i+1] += PiNS
+    fvNS[i][1] += dissNSs[4+i]
+    fvNS[i][2] += dissNSs[7+i]
+    fvNS[i][3] += dissNSs[10+i]
     fvNS[i][4] = svNS[4]*vs[i] + W*(qsNS[i] - qvNS*vs[i]) + pi0iNSs[i]
     for j in range(len(svNS)):
         fvNS[i][j] = sp.simplify(sp.expand(fvNS[i][j]))
