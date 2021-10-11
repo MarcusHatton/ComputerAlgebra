@@ -8,13 +8,13 @@ Created on Mon Aug  9 18:02:33 2021
 from sympy import *
 import numpy as np
 
-num_lines = 5 # 13
+num_lines = 13 # 5
 
 # Read in the algebra in sympy form from file
 NS_str = ["" for j in range(num_lines)]
 
-#infile = open('dt_NSs.txt','r')
-infile = open('dt_prims.txt','r')
+infile = open('dt_NSs.txt','r')
+#infile = open('dt_prims.txt','r')
 
 # Read in state vector components
 for i in range(num_lines):
@@ -37,7 +37,7 @@ for j in range(num_lines):
     for prim_var in all_prim_vars:
         NS_str[j] = NS_str[j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t)', \
-                                  'tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j, k)]')
+                                      'aux[ID(TDerivs::dt'+str(prim_var)+', i, j, k)]')
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', x)', \
                                       '((prims[ID(Prims::'+str(prim_var)+', i+1, j, k)] - prims[ID(Prims::'+str(prim_var)+', i-1, j, k)])/(d->dx))')
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', y)', \
@@ -46,11 +46,11 @@ for j in range(num_lines):
                                       '((prims[ID(Prims::'+str(prim_var)+', i, j, k+1)] - prims[ID(Prims::'+str(prim_var)+', i, j, k-1)])/(d->dz))')
 
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t, x)', \
-                                      '((tderivs[ID(TDerivs::dt'+str(prim_var)+', i+1, j, k)] - tderivs[ID(TDerivs::dt'+str(prim_var)+', i-1, j, k)])/(d->dx))')            
+                                      '((aux[ID(TDerivs::dt'+str(prim_var)+', i+1, j, k)] - aux[ID(TDerivs::dt'+str(prim_var)+', i-1, j, k)])/(d->dx))')            
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t, y)', \
-                                      '((tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j+1, k)] - tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j-1, k)])/(d->dy))')            
+                                      '((aux[ID(TDerivs::dt'+str(prim_var)+', i, j+1, k)] - aux[ID(TDerivs::dt'+str(prim_var)+', i, j-1, k)])/(d->dy))')            
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t, z)', \
-                                      '((tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j, k+1)] - tderivs[ID(TDerivs::dt'+str(prim_var)+', i, j, k-1)])/(d->dz))')            
+                                      '((aux[ID(TDerivs::dt'+str(prim_var)+', i, j, k+1)] - aux[ID(TDerivs::dt'+str(prim_var)+', i, j, k-1)])/(d->dz))')            
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', (t, 2))', str(0))
             
     # for diss_var in diss_vars:
@@ -64,7 +64,7 @@ for j in range(num_lines):
     for aux_var in all_aux_vars:
         NS_str[j] = NS_str[j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t)', \
-                                  'tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j, k)]')
+                                      'aux[ID(TDerivs::dt'+str(aux_var)+', i, j, k)]')
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', x)', \
                                       '((aux[ID(Aux::'+str(aux_var)+', i+1, j, k)] - aux[ID(Aux::'+str(aux_var)+', i-1, j, k)])/(d->dx))')
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', y)', \
@@ -73,11 +73,11 @@ for j in range(num_lines):
                                       '((aux[ID(Aux::'+str(aux_var)+', i, j, k+1)] - aux[ID(Aux::'+str(aux_var)+', i, j, k-1)])/(d->dz))')
 
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t, x)', \
-                                      '((tderivs[ID(TDerivs::dt'+str(aux_var)+', i+1, j, k)] - tderivs[ID(TDerivs::dt'+str(aux_var)+', i-1, j, k)])/(d->dx))')            
+                                      '((aux[ID(TDerivs::dt'+str(aux_var)+', i+1, j, k)] - aux[ID(TDerivs::dt'+str(aux_var)+', i-1, j, k)])/(d->dx))')            
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t, y)', \
-                                      '((tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j+1, k)] - tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j-1, k)])/(d->dy))')            
+                                      '((aux[ID(TDerivs::dt'+str(aux_var)+', i, j+1, k)] - aux[ID(TDerivs::dt'+str(aux_var)+', i, j-1, k)])/(d->dy))')            
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t, z)', \
-                                      '((tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j, k+1)] - tderivs[ID(TDerivs::dt'+str(aux_var)+', i, j, k-1)])/(d->dz))')            
+                                      '((aux[ID(TDerivs::dt'+str(aux_var)+', i, j, k+1)] - aux[ID(TDerivs::dt'+str(aux_var)+', i, j, k-1)])/(d->dz))')            
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', (t, 2))', str(0))
 
 
@@ -101,15 +101,15 @@ for i in range(num_lines):
     #outfile.write('\n'+state_vec[i]+'\n')
     if num_lines == 13:
         outfile.write('dt'+str(dissNSs[i])+' = '+NS_str[i].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
-                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
-                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
-                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])')\
+                      .replace('prims[ID(Prims::v1, i, j, k)]**2','sqr(prims[ID(Prims::v1, i, j, k)])')\
+                      .replace('prims[ID(Prims::v2, i, j, k)]**2','sqr(prims[ID(Prims::v2, i, j, k)])')\
+                      .replace('prims[ID(Prims::v3, i, j, k)]**2','sqr(prims[ID(Prims::v3, i, j, k)])')\
                       .replace('21','12').replace('31','13').replace('32','23'))
-    if num_lines == 5:
+    elif num_lines == 5:
         outfile.write(NS_str[i].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
-                      .replace('prims[ID(Prims::vx, i, j, k)]**2','sqr(prims[ID(Prims::vx, i, j, k)])')\
-                      .replace('prims[ID(Prims::vy, i, j, k)]**2','sqr(prims[ID(Prims::vy, i, j, k)])')\
-                      .replace('prims[ID(Prims::vz, i, j, k)]**2','sqr(prims[ID(Prims::vz, i, j, k)])')\
+                      .replace('prims[ID(Prims::v1, i, j, k)]**2','sqr(prims[ID(Prims::v1, i, j, k)])')\
+                      .replace('prims[ID(Prims::v2, i, j, k)]**2','sqr(prims[ID(Prims::v2, i, j, k)])')\
+                      .replace('prims[ID(Prims::v3, i, j, k)]**2','sqr(prims[ID(Prims::v3, i, j, k)])')\
                       .replace('21','12').replace('31','13').replace('32','23'))
     else:
         print('EEK')
