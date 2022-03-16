@@ -30,18 +30,18 @@ Gamma = sp.symbols('Gamma')
 prim_vars = [v1, v2, v3, p, n, rho]
 
 # state vector simplest
-# D = (rho - p/(1-Gamma))
-# S1 = (rho + p)*v1
-# S2 = (rho + p)*v2
-# S3 = (rho + p)*v3
-# E = rho
+D = (rho - p/(1-Gamma))
+S1 = (rho + p)*v1
+S2 = (rho + p)*v2
+S3 = (rho + p)*v3
+E = rho
 
 # better
-D = (rho - p/(1-Gamma))*W # n is substituted here
-S1 = (rho + p)*v1*W**2
-S2 = (rho + p)*v2*W**2
-S3 = (rho + p)*v3*W**2
-E = (rho + p)*W**2 - p
+# D = (rho - p/(1-Gamma))*W # n is substituted here
+# S1 = (rho + p)*v1*W**2
+# S2 = (rho + p)*v2*W**2
+# S3 = (rho + p)*v3*W**2
+# E = (rho + p)*W**2 - p
 
 sv = [D, S1, S2, S3, E]
 
