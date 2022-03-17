@@ -81,14 +81,14 @@ fvx_Jac, fvy_Jac, fvz_Jac = fvx_Mat.jacobian(jac_vars_Mat), fvy_Mat.jacobian(jac
 
 #print(sv_Jac)
 
-outfile = open('BDNK.txt','w')
+outfile = open('BDNK_simple.txt','w')
 
 for i in range(len(jac_vars)):
     print(str(jac_vars[i].diff(t))+'  =  ')
     print((-sv_Jac_inv*fvx_Jac*sp.Matrix(jac_vars_diff_x))[i])
     print('\n')
     outfile.write(str(jac_vars[i].diff(t))+'  =  ')
-    outfile.write(str((-sv_Jac_inv*fvx_Jac*sp.Matrix(jac_vars_diff_x))[i])+'\n')
+    outfile.write(str(sp.simplify(sp.expand((-sv_Jac_inv*fvx_Jac*sp.Matrix(jac_vars_diff_x))[i])))+'\n')
 
 outfile.close()
 

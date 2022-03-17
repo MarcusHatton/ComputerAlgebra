@@ -37,7 +37,7 @@ for j in range(num_lines):
     for prim_var in all_prim_vars:
         NS_str[j] = NS_str[j].replace(str(prim_var)+func_of,'prims[ID(Prims::'+str(prim_var)+components)
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t)', \
-                                      'aux[ID(TDerivs::dt'+str(prim_var)+', i, j, k)]')
+                                      'aux[ID(Aux::dt'+str(prim_var)+', i, j, k)]')
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', x)', \
                                       '((prims[ID(Prims::'+str(prim_var)+', i+1, j, k)] - prims[ID(Prims::'+str(prim_var)+', i-1, j, k)])/(2*d->dx))')
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', y)', \
@@ -46,11 +46,11 @@ for j in range(num_lines):
                                       '((prims[ID(Prims::'+str(prim_var)+', i, j, k+1)] - prims[ID(Prims::'+str(prim_var)+', i, j, k-1)])/(2*d->dz))')
 
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t, x)', \
-                                      '((aux[ID(TDerivs::dt'+str(prim_var)+', i+1, j, k)] - aux[ID(TDerivs::dt'+str(prim_var)+', i-1, j, k)])/(2*d->dx))')            
+                                      '((aux[ID(Aux::dt'+str(prim_var)+', i+1, j, k)] - aux[ID(Aux::dt'+str(prim_var)+', i-1, j, k)])/(2*d->dx))')            
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t, y)', \
-                                      '((aux[ID(TDerivs::dt'+str(prim_var)+', i, j+1, k)] - aux[ID(TDerivs::dt'+str(prim_var)+', i, j-1, k)])/(2*d->dy))')            
+                                      '((aux[ID(Aux::dt'+str(prim_var)+', i, j+1, k)] - aux[ID(Aux::dt'+str(prim_var)+', i, j-1, k)])/(2*d->dy))')            
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', t, z)', \
-                                      '((aux[ID(TDerivs::dt'+str(prim_var)+', i, j, k+1)] - aux[ID(TDerivs::dt'+str(prim_var)+', i, j, k-1)])/(2*d->dz))')            
+                                      '((aux[ID(Aux::dt'+str(prim_var)+', i, j, k+1)] - aux[ID(Aux::dt'+str(prim_var)+', i, j, k-1)])/(2*d->dz))')            
         NS_str[j] = NS_str[j].replace('Derivative(prims[ID(Prims::'+str(prim_var)+components+', (t, 2))', str(0)) 
                     # not great simply setting second time derivs to zero...
             
@@ -65,7 +65,7 @@ for j in range(num_lines):
     for aux_var in all_aux_vars:
         NS_str[j] = NS_str[j].replace(str(aux_var)+func_of,'aux[ID(Aux::'+str(aux_var)+components)
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t)', \
-                                      'aux[ID(TDerivs::dt'+str(aux_var)+', i, j, k)]')
+                                      'aux[ID(Aux::dt'+str(aux_var)+', i, j, k)]')
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', x)', \
                                       '((aux[ID(Aux::'+str(aux_var)+', i+1, j, k)] - aux[ID(Aux::'+str(aux_var)+', i-1, j, k)])/(d->dx))')
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', y)', \
@@ -74,11 +74,11 @@ for j in range(num_lines):
                                       '((aux[ID(Aux::'+str(aux_var)+', i, j, k+1)] - aux[ID(Aux::'+str(aux_var)+', i, j, k-1)])/(d->dz))')
 
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t, x)', \
-                                      '((aux[ID(TDerivs::dt'+str(aux_var)+', i+1, j, k)] - aux[ID(TDerivs::dt'+str(aux_var)+', i-1, j, k)])/(d->dx))')            
+                                      '((aux[ID(Aux::dt'+str(aux_var)+', i+1, j, k)] - aux[ID(Aux::dt'+str(aux_var)+', i-1, j, k)])/(d->dx))')            
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t, y)', \
-                                      '((aux[ID(TDerivs::dt'+str(aux_var)+', i, j+1, k)] - aux[ID(TDerivs::dt'+str(aux_var)+', i, j-1, k)])/(d->dy))')            
+                                      '((aux[ID(Aux::dt'+str(aux_var)+', i, j+1, k)] - aux[ID(Aux::dt'+str(aux_var)+', i, j-1, k)])/(d->dy))')            
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', t, z)', \
-                                      '((aux[ID(TDerivs::dt'+str(aux_var)+', i, j, k+1)] - aux[ID(TDerivs::dt'+str(aux_var)+', i, j, k-1)])/(d->dz))')            
+                                      '((aux[ID(Aux::dt'+str(aux_var)+', i, j, k+1)] - aux[ID(Aux::dt'+str(aux_var)+', i, j, k-1)])/(d->dz))')            
         NS_str[j] = NS_str[j].replace('Derivative(aux[ID(Aux::'+str(aux_var)+components+', (t, 2))', str(0))
 
 
