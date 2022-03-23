@@ -13,7 +13,7 @@ num_lines = 5
 # Read in the algebra in sympy form from file
 NS_str = ["" for j in range(num_lines)]
 
-infile = open('BDNK_simple.txt','r')
+infile = open('BDNK_3D_full.txt','r')
 #infile = open('jac_sol_simple.txt','r')
 
 # Read in state vector components
@@ -92,14 +92,15 @@ for j in range(num_lines):
     #     NS_str[j] = NS_str[j].replace(str(diss1)+func_of,'aux[ID(Aux::'+str(diss1)+components)
 
 
-outfile = open('BDNKInCCode.txt','w')
+outfile = open('BDNKInCCode3DFull.txt','w')
 
 for i in range(num_lines):
-    outfile.write(NS_str[i].replace('aux[ID(Aux::W, i, j, k)]**2','sqr(aux[ID(Aux::W, i, j, k)])')\
-                  .replace('aux[ID(Aux::W, i, j, k)]**3','aux[ID(Aux::W, i, j, k)]*sqr(aux[ID(Aux::W, i, j, k)])')
-                  .replace('prims[ID(Prims::v1, i, j, k)]**2','sqr(prims[ID(Prims::v1, i, j, k)])')\
-                  .replace('prims[ID(Prims::v2, i, j, k)]**2','sqr(prims[ID(Prims::v2, i, j, k)])')\
-                  .replace('prims[ID(Prims::v3, i, j, k)]**2','sqr(prims[ID(Prims::v3, i, j, k)])')\
+    outfile.write(NS_str[i].replace('aux[ID(Aux::W, i, j, k)]**2','pow(aux[ID(Aux::W, i, j, k)],2)')\
+                  .replace('aux[ID(Aux::W, i, j, k)]**3','pow(aux[ID(Aux::W, i, j, k)],3)')\
+                  .replace('aux[ID(Aux::W, i, j, k)]**4','pow(aux[ID(Aux::W, i, j, k)],4)')\
+                  .replace('prims[ID(Prims::v1, i, j, k)]**2','pow(prims[ID(Prims::v1, i, j, k)],2)')\
+                  .replace('prims[ID(Prims::v2, i, j, k)]**2','pow(prims[ID(Prims::v2, i, j, k)],2)')\
+                  .replace('prims[ID(Prims::v3, i, j, k)]**2','pow(prims[ID(Prims::v3, i, j, k)],2)')\
                   .replace('21','12').replace('31','13').replace('32','23')\
                   .replace('Gamma','d->gamma'))
 outfile.close()
