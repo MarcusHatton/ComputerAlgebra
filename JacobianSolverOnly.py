@@ -34,7 +34,7 @@ prim_vars = [v1, v2, v3, p, n, rho]
 # E = rho
 
 # better
-D = (rho + p/(1-Gamma))*W # n is substituted here
+D = (rho - p/(Gamma-1))*W # n is substituted here
 S1 = (rho + p)*v1*W**2
 S2 = (rho + p)*v2*W**2
 S3 = (rho + p)*v3*W**2
